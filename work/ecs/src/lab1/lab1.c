@@ -104,6 +104,7 @@ void section2(){
     value1 = 0;
     value2 = 0;
 
+    // Getting the values from dip switches
     for (index=7; index > 3; index--) {
       temp = readGPIO(DIP_BASE[index], DIP[index]);
       value2 = (value2 << 1) + temp;
@@ -114,7 +115,13 @@ void section2(){
       value1 = (value1 << 1) + temp;
     }
 
+
+    // Writing the summed value
     sum = value1 + value2;
+
+    for (index=0; index < 5; index++) {
+      writeGPIO(LED_BASE[index], LED[index], (sum >> index) & 0b1);
+    }
 
   }
 }

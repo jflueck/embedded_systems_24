@@ -59,7 +59,7 @@ void initGPDO(const uint8_t base, const uint8_t pin) {
   gpio_base_ptrs[base]->PDDR |= 0b1 << pin;
 
   /* All other bitfields to 0 */
-  gpio_base_ptrs[base]->PDOR = 0;
+  //gpio_base_ptrs[base]->PDOR = 0;
 }
 
 
@@ -82,7 +82,15 @@ void writeGPIO(const uint8_t base, const uint8_t pin, const uint8_t val){
      multiple bits in the PDOR register
  (2) if a PDOR bit already has the desired setting,
      then do not toggle the bit before returning it to this setting */
-//  gpio_base_ptrs[base]->PDOR = val
+//  int i;
+//  for (i = 1; i < 32; i++) {
+//    gpio_base_ptrs[base]->PDOR &= ~(1 << pin + i);
+//  }
+
+  // clearing bit
+  gpio_base_ptrs[base]->PDOR &= ~(1 << pin);
+  // writing cleared bit
+  gpio_base_ptrs[base]->PDOR |= val << pin;
 
   return;
 }
