@@ -56,7 +56,7 @@ void initGPDO(const uint8_t base, const uint8_t pin) {
   port_base_ptrs[base]->PCR[pin] = 0b001 << 8;
 
   /* Set the pin direction to output */
-  gpio_base_ptrs[base]->PDDR |= 0b1 << index;
+  gpio_base_ptrs[base]->PDDR |= 0b1 << pin;
 
   /* All other bitfields to 0 */
   gpio_base_ptrs[base]->PDOR = 0;
@@ -68,7 +68,7 @@ void initGPDO(const uint8_t base, const uint8_t pin) {
  * Description: Read the digital 1/0 from GPIO input register
  ******************************************************************************/
 uint8_t readGPIO(const uint8_t base, const uint8_t pin){
-  return (gpio_base_ptrs[base]->PDIR) >> pin & 0b1111;
+  return (gpio_base_ptrs[base]->PDIR >> pin) & 0b1;
 }
 
 
@@ -82,7 +82,7 @@ void writeGPIO(const uint8_t base, const uint8_t pin, const uint8_t val){
      multiple bits in the PDOR register
  (2) if a PDOR bit already has the desired setting,
      then do not toggle the bit before returning it to this setting */
-  gpio_base_ptrs[base]->PDOR = val
+//  gpio_base_ptrs[base]->PDOR = val
 
   return;
 }

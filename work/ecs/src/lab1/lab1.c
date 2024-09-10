@@ -25,7 +25,7 @@
 #include "gpio.h"
 
 /* Change section number to match the section (1-3) being tested */
-#define SECTION 1
+#define SECTION 2
 
 #if SECTION == 1
 
@@ -83,33 +83,39 @@ void section1(){
 void section2(){
   /* code for section 2 */
   /* Use the Arrays LED, LED_BASE, DIP and DIP_BASE provided in the gpio.c file */
-  const uint8_t LED[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-  const uint8_t LED_BASE[16] = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
-
-  const uint8_t DIP[16] = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 1, 2, 3, 17};
-  const uint8_t DIP_BASE[16] = {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3};
-
   int led_array_length = sizeof(LED) / sizeof(LED[0]);
   int dip_array_length = sizeof(DIP) / sizeof(DIP[0]);
 
   // Initializes the inputs
-  for (int index=0, index < dip_array_length + 1, index++){
-    initGDPI(DIP_BASE[index], DIP[index]);
+  int index = 0;
+  for (index=0; index < dip_array_length; index++){
+    initGPDI(DIP_BASE[index], DIP[index]);
   }
 
   // Initializes the outputs
-  for (int index=0, index < led_array_length + 1, index++){
-    initGDPO(LED_BASE[index], LED[index]);
+  for (index=0; index < led_array_length; index++){
+    initGPDO(LED_BASE[index], LED[index]);
   }
 
   // Performs calculations and outputs it to LEDs
-
   uint16_t sum, value1, value2;
+  uint16_t temp;
   while (1) {
-    value1 = readGPIO(DIP_BASE, DIP[0])
-    value2 = readGPIO(DIP_BASE, DIP[5])
-    sum = value1 + value2
-    writeGPIO(LED_BASE, LED[0], sum);
+    value1 = 0;
+    value2 = 0;
+
+    for (index=7; index > 3; index--) {
+      temp = readGPIO(DIP_BASE[index], DIP[index]);
+      value2 = (value2 << 1) + temp;
+    }
+
+    for (index=3; index > -1; index--) {
+      temp = readGPIO(DIP_BASE[index], DIP[index]);
+      value1 = (value1 << 1) + temp;
+    }
+
+    sum = value1 + value2;
+
   }
 }
 
