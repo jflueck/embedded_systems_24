@@ -25,7 +25,7 @@
 #include "gpio.h"
 
 /* Change section number to match the section (1-3) being tested */
-#define SECTION 2
+#define SECTION 3
 
 #if SECTION == 1
 
@@ -115,14 +115,12 @@ void section2(){
       value1 = (value1 << 1) + temp;
     }
 
-
     // Writing the summed value
     sum = value1 + value2;
 
     for (index=0; index < 5; index++) {
       writeGPIO(LED_BASE[index], LED[index], (sum >> index) & 0b1);
     }
-
   }
 }
 
@@ -137,15 +135,35 @@ void section2(){
 void section3(){
   /* code for section 3 */
   char byte_in, old_byte_in;
-
+  uint16_t sum;
   /* LPUART functions for sending and receiving serial data */
   LPUART1_init();
   LPUART1_transmit_string("\n\rSerial Output Enable...........");
+  old_byte_in += 16;
+  byte_in += 16;
+
+  // Initializes the outputs
+  int led_array_length = sizeof(LED) / sizeof(LED[0]);
+  int index = 0;
+  for (index=0; index < led_array_length; index++){
+    initGPDO(LED_BASE[index], LED[index]);
+  }
+
   while(1) {
     old_byte_in = byte_in;
     byte_in = LPUART1_receive_char(); // returns ASCII representation
 
 
+    if (byte_in > 58 || byte_in < 47) {
+      continue;
+    }
+
+    sum = old_byte_in + byte_in - 2*48;
+
+    int index;
+    for (index=0; index < 5; index++) {
+      writeGPIO(LED_BASE[index], LED[index], (sum >> index) & 0b1);
+    }
   }
 }
 #endif
