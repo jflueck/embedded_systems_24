@@ -25,7 +25,7 @@
 #include "gpio.h"
 
 /* Change section number to match the section (1-3) being tested */
-#define SECTION 3
+#define SECTION
 
 #if SECTION == 1
 
@@ -170,7 +170,7 @@ void section3(){
 
 int main(){
   /* Always call initECS() before doing anything else */
-  initECS();
+  // initECS();
 
   #if(SECTION == 1)
   section1();

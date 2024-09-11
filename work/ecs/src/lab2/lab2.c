@@ -21,24 +21,51 @@
 #include "qd.h"
 
 /* Change section number to match the section (1-4) being tested */
-#define SECTION 1
+#define SECTION 4
 
 int main(void){
-  int32_t counter = 0;
+  initECS();
+  uint16_t counter = 0;
   int i;
   float angle;
   int16_t angleInt;
+  initQD();
+
 
   /* Initialize ECS, QD, GPDO */
+  int led_array_length = sizeof(LED) / sizeof(LED[0]);
+  int index = 0;
+
+  // init GPDO
+  for (index=0; index < led_array_length; index++){
+    initGPDO(LED_BASE[index], LED[index]);
+  }
+
 
   while(1){
     #if SECTION == 1 //Read the counter
+	  counter = updateCounter();
 
     #elif SECTION == 2 //Overflow and Underflow
-
+	  counter = updateCounter();
+	  for (index=0; index < led_array_length; index++) {
+			writeGPIO(LED_BASE[index], LED[index], (counter >> index) & 0b1);
+		  }
     #elif SECTION == 3 //updateCounter and Faulty Casting
+	  int32_t total = 0;
+	  total = updateCounter();
+	  int32_t total_led = (total >> 8) & 0xFFFF;
+
+	  for (index=0; index < led_array_length; index++) {
+      writeGPIO(LED_BASE[index], LED[index], (total_led >> index) & 0b1);
+      }
 
     #elif SECTION == 4 //Angle Calculation
+	  float total_angle = updateAngle();
+	  int32_t total_angle_int = (int32_t) total_angle;
+		for (index=0; index < led_array_length; index++) {
+		  writeGPIO(LED_BASE[index], LED[index], (total_angle_int >> index) & 0b1);
+		  }
 
     #endif
   }
