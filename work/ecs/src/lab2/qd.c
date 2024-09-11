@@ -69,6 +69,6 @@ int32_t updateCounter()
  ******************************************************************************/
 float updateAngle()
 {
-  conversion_factor = 360/ENCODER_COUNT;
-  return TOTAL * conversion_factor;
+  float conversion_factor = 360.0 / (float)ENCODER_COUNT;
+  return (TOTAL * conversion_factor) % 360.0;
 }
