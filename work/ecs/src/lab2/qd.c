@@ -18,12 +18,15 @@
 #include "qd.h"
 
 /* Quadrature Decoding Parameters */
-#define ENCODER_COUNT /* fill in */
+#define ENCODER_COUNT 1000
 
-#define QD_PHA_PORT /* fill in */
-#define QD_PHB_PORT /* fill in */
-#define QD_PHA_PIN  /* fill in */
-#define QD_PHB_PIN  /* fill in */
+#define QD_PHA_PORT PORTA
+#define QD_PHB_PORT PORTA
+#define QD_PHA_PIN  12
+#define QD_PHB_PIN  13
+
+static int32_t TOTAL;
+static uint16_t PREV_QDPC;
 
 /******************************************************************************
 * Function: init_QD
@@ -32,14 +35,14 @@
 void initQD()
 {
   /* Initialize Phase A and B input PCR */
-  QD_PHA_PORT->PCR[/* fill in */] |= PORT_PCR_MUX(/* fill in */);
-  QD_PHB_PORT->PCR[/* fill in */] |= PORT_PCR_MUX(/* fill in */);
+  QD_PHA_PORT->PCR[QD_PHA_PIN] |= PORT_PCR_MUX(0b110);
+  QD_PHB_PORT->PCR[QD_PHB_PIN] |= PORT_PCR_MUX(0b110);
 
   /* Set up FTM2 for Quadrature Decode */
   FTM2->MODE |= FTM_MODE_WPDIS_MASK; /* Disable write protection (should already be disabled) */
-  FTM2->MOD = /* fill in */;
-  FTM2->CNTIN = /* fill in */;
-  FTM2->QDCTRL = /* fill in */;   /* Enable QD mode */
+  FTM2->MOD = FTM_MOD_MOD(0xFFFF);
+  FTM2->CNTIN = FTM_CNTIN_INIT(0x0000);
+  FTM2->QDCTRL = FTM_QDCTRL_QUADEN(0b1);   /* Enable QD mode */
 
   FTM2->CONF |= FTM_CONF_BDMMODE(0b11); /* Optional: enable in debug mode */
 
@@ -53,7 +56,10 @@ void initQD()
  ******************************************************************************/
 int32_t updateCounter()
 {
-  /* fill in */
+  uint16_t CURR_QDPC = FTM2->CNT;
+  TOTAL = TOTAL + (int16_t)(CURR_QDPC - PREV_QDPC);
+  PREV_QDPC = CURR_QDPC;
+  return TOTAL;
 }
 
 
@@ -63,5 +69,6 @@ int32_t updateCounter()
  ******************************************************************************/
 float updateAngle()
 {
-  /* fill in  -- don't reinvent the wheel*/
+  conversion_factor = 360/ENCODER_COUNT;
+  return TOTAL * conversion_factor;
 }
