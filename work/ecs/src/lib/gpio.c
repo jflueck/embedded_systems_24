@@ -82,11 +82,14 @@ void writeGPIO(const uint8_t base, const uint8_t pin, const uint8_t val){
      multiple bits in the PDOR register
  (2) if a PDOR bit already has the desired setting,
      then do not toggle the bit before returning it to this setting */
-
-  // clearing bit
-  gpio_base_ptrs[base]->PDOR &= ~(1 << pin);
-  // writing cleared bit
-  gpio_base_ptrs[base]->PDOR |= val << pin;
+  if (val != 0b1) {
+    // clearing bit
+    gpio_base_ptrs[base]->PDOR &= ~(1 << pin);
+  }
+  else {
+    // writing cleared bit
+    gpio_base_ptrs[base]->PDOR |= val << pin;
+  }
 
   return;
 }

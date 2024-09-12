@@ -19,6 +19,11 @@ C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m\librt.a(__arm_eabi_init.o)
 C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m\librt.a(ROMCopy.o)
                               C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_start.o (__copy_rom_sections_to_ram)
 
+Allocating common symbols
+Common symbol       size              file
+
+buffer              0x400             ./src/lab3/lab3o.o
+
 Discarded input sections
 
  .text          0x00000000        0x0 C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_start.o
@@ -62,18 +67,12 @@ Discarded input sections
  .bss           0x00000000        0x0 ./src/lib/interrupt_manager.o
  .bss.g_interruptDisableCount
                 0x00000000        0x4 ./src/lib/interrupt_manager.o
- .text.INT_SYS_InstallHandler
-                0x00000000       0x44 ./src/lib/interrupt_manager.o
- .text.INT_SYS_EnableIRQ
-                0x00000000       0x30 ./src/lib/interrupt_manager.o
  .text.INT_SYS_DisableIRQ
                 0x00000000       0x34 ./src/lib/interrupt_manager.o
  .text.INT_SYS_EnableIRQGlobal
                 0x00000000       0x2c ./src/lib/interrupt_manager.o
  .text.INT_SYS_DisableIRQGlobal
                 0x00000000       0x1c ./src/lib/interrupt_manager.o
- .text.INT_SYS_SetPriority
-                0x00000000       0x8c ./src/lib/interrupt_manager.o
  .text.INT_SYS_GetPriority
                 0x00000000       0x90 ./src/lib/interrupt_manager.o
  .text.INT_SYS_ClearPending
@@ -84,36 +83,6 @@ Discarded input sections
                 0x00000000       0x38 ./src/lib/interrupt_manager.o
  .text.INT_SYS_GetActive
                 0x00000000       0x38 ./src/lib/interrupt_manager.o
- .debug_info    0x00000000      0x8bd ./src/lib/interrupt_manager.o
- .debug_abbrev  0x00000000      0x18e ./src/lib/interrupt_manager.o
- .debug_aranges
-                0x00000000       0x70 ./src/lib/interrupt_manager.o
- .debug_ranges  0x00000000       0x60 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0xea ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000      0x868 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x52 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0xa0 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x16 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x10 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x6d ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x19 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x64 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000      0x185 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000      0x140 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x9d ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x10 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000      0x15b ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x28 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x58 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000     0xdf8d ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000      0x978 ./src/lib/interrupt_manager.o
- .debug_macro   0x00000000       0x22 ./src/lib/interrupt_manager.o
- .debug_line    0x00000000      0x34f ./src/lib/interrupt_manager.o
- .debug_str     0x00000000    0x62aa9 ./src/lib/interrupt_manager.o
- .comment       0x00000000       0x71 ./src/lib/interrupt_manager.o
- .debug_frame   0x00000000      0x1b8 ./src/lib/interrupt_manager.o
- .ARM.attributes
-                0x00000000       0x33 ./src/lib/interrupt_manager.o
  .group         0x00000000        0x8 ./src/lib/gpio.o
  .group         0x00000000        0x8 ./src/lib/gpio.o
  .group         0x00000000        0x8 ./src/lib/gpio.o
@@ -131,9 +100,6 @@ Discarded input sections
  .text          0x00000000        0x0 ./src/lib/gpio.o
  .data          0x00000000        0x0 ./src/lib/gpio.o
  .bss           0x00000000        0x0 ./src/lib/gpio.o
- .rodata.LED    0x00000000       0x10 ./src/lib/gpio.o
- .rodata.LED_BASE
-                0x00000000       0x10 ./src/lib/gpio.o
  .rodata.DIP    0x00000000       0x10 ./src/lib/gpio.o
  .rodata.DIP_BASE
                 0x00000000       0x10 ./src/lib/gpio.o
@@ -141,6 +107,8 @@ Discarded input sections
                 0x00000000       0x54 ./src/lib/gpio.o
  .text.readGPIO
                 0x00000000       0x38 ./src/lib/gpio.o
+ .text.writeGPIO
+                0x00000000       0x68 ./src/lib/gpio.o
  .debug_macro   0x00000000      0x868 ./src/lib/gpio.o
  .debug_macro   0x00000000       0x52 ./src/lib/gpio.o
  .debug_macro   0x00000000       0xa0 ./src/lib/gpio.o
@@ -235,22 +203,10 @@ Discarded input sections
  .text          0x00000000        0x0 ./src/lib/LPUART.o
  .data          0x00000000        0x0 ./src/lib/LPUART.o
  .bss           0x00000000        0x0 ./src/lib/LPUART.o
- .text.LPUART1_init
-                0x00000000       0x5c ./src/lib/LPUART.o
- .text.LPUART1_transmit_char
-                0x00000000       0x30 ./src/lib/LPUART.o
  .text.LPUART1_transmit_string
                 0x00000000       0x34 ./src/lib/LPUART.o
- .text.LPUART1_receive_char
-                0x00000000       0x48 ./src/lib/LPUART.o
  .text.LPUART1_recieve_and_echo_char
                 0x00000000       0x28 ./src/lib/LPUART.o
- .debug_info    0x00000000      0x2fc ./src/lib/LPUART.o
- .debug_abbrev  0x00000000      0x155 ./src/lib/LPUART.o
- .debug_aranges
-                0x00000000       0x40 ./src/lib/LPUART.o
- .debug_ranges  0x00000000       0x30 ./src/lib/LPUART.o
- .debug_macro   0x00000000       0xb0 ./src/lib/LPUART.o
  .debug_macro   0x00000000      0x868 ./src/lib/LPUART.o
  .debug_macro   0x00000000       0x52 ./src/lib/LPUART.o
  .debug_macro   0x00000000       0xa0 ./src/lib/LPUART.o
@@ -265,12 +221,47 @@ Discarded input sections
  .debug_macro   0x00000000       0x28 ./src/lib/LPUART.o
  .debug_macro   0x00000000       0x58 ./src/lib/LPUART.o
  .debug_macro   0x00000000     0xdf8d ./src/lib/LPUART.o
- .debug_line    0x00000000      0x26f ./src/lib/LPUART.o
- .debug_str     0x00000000    0x5dd87 ./src/lib/LPUART.o
- .comment       0x00000000       0x71 ./src/lib/LPUART.o
- .debug_frame   0x00000000       0xc8 ./src/lib/LPUART.o
- .ARM.attributes
-                0x00000000       0x33 ./src/lib/LPUART.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .group         0x00000000        0x8 ./src/lab3/lab3o.o
+ .text          0x00000000        0x0 ./src/lab3/lab3o.o
+ .data          0x00000000        0x0 ./src/lab3/lab3o.o
+ .bss           0x00000000        0x0 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000      0x868 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x52 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0xa0 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x16 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x40 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x19 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x64 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000      0x185 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000      0x140 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x9d ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x10 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000      0x15b ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x28 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x58 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000     0xdf8d ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x6d ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x10 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000      0x978 ./src/lab3/lab3o.o
+ .debug_macro   0x00000000       0x22 ./src/lab3/lab3o.o
  .group         0x00000000        0x8 ./src/lab3/lab3.o
  .group         0x00000000        0x8 ./src/lab3/lab3.o
  .group         0x00000000        0x8 ./src/lab3/lab3.o
@@ -289,6 +280,15 @@ Discarded input sections
  .text          0x00000000        0x0 ./src/lab3/lab3.o
  .data          0x00000000        0x0 ./src/lab3/lab3.o
  .bss           0x00000000        0x0 ./src/lab3/lab3.o
+ .bss.LED_state
+                0x00000000        0x1 ./src/lab3/lab3.o
+ .text.main     0x00000000       0x3c ./src/lab3/lab3.o
+ .debug_info    0x00000000       0xc3 ./src/lab3/lab3.o
+ .debug_abbrev  0x00000000       0x72 ./src/lab3/lab3.o
+ .debug_aranges
+                0x00000000       0x20 ./src/lab3/lab3.o
+ .debug_ranges  0x00000000       0x10 ./src/lab3/lab3.o
+ .debug_macro   0x00000000       0xdf ./src/lab3/lab3.o
  .debug_macro   0x00000000      0x868 ./src/lab3/lab3.o
  .debug_macro   0x00000000       0x52 ./src/lab3/lab3.o
  .debug_macro   0x00000000       0xa0 ./src/lab3/lab3.o
@@ -304,6 +304,12 @@ Discarded input sections
  .debug_macro   0x00000000       0x28 ./src/lab3/lab3.o
  .debug_macro   0x00000000       0x58 ./src/lab3/lab3.o
  .debug_macro   0x00000000     0xdf8d ./src/lab3/lab3.o
+ .debug_line    0x00000000      0x224 ./src/lab3/lab3.o
+ .debug_str     0x00000000    0x5dd92 ./src/lab3/lab3.o
+ .comment       0x00000000       0x71 ./src/lab3/lab3.o
+ .debug_frame   0x00000000       0x2c ./src/lab3/lab3.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/lab3/lab3.o
  .group         0x00000000        0x8 ./Project_Settings/Startup_Code/system_S32K144.o
  .group         0x00000000        0x8 ./Project_Settings/Startup_Code/system_S32K144.o
  .group         0x00000000        0x8 ./Project_Settings/Startup_Code/system_S32K144.o
@@ -562,6 +568,7 @@ LOAD ./src/lib/gpio.o
 LOAD ./src/lib/ecs.o
 LOAD ./src/lib/adc.o
 LOAD ./src/lib/LPUART.o
+LOAD ./src/lab3/lab3o.o
 LOAD ./src/lab3/lab3.o
 LOAD ./Project_Settings/Startup_Code/system_S32K144.o
 LOAD ./Project_Settings/Startup_Code/startup_S32K144.o
@@ -592,7 +599,7 @@ LOAD C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_end.o
  .FlashConfig   0x00000400       0x10 ./Project_Settings/Startup_Code/startup_S32K144.o
                 0x00000410                . = ALIGN (0x4)
 
-.text           0x00000410      0xb74
+.text           0x00000410      0xe1c
                 0x00000410                . = ALIGN (0x4)
  *(.text)
  .text          0x00000410       0x44 ./Project_Settings/Startup_Code/startup_S32K144.o
@@ -748,66 +755,88 @@ LOAD C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_end.o
                 0x00000910                __fixunssfsi
                 0x00000910                __aeabi_f2uiz
  *(.text*)
+ .text.INT_SYS_InstallHandler
+                0x00000950       0x44 ./src/lib/interrupt_manager.o
+                0x00000950                INT_SYS_InstallHandler
+ .text.INT_SYS_EnableIRQ
+                0x00000994       0x30 ./src/lib/interrupt_manager.o
+                0x00000994                INT_SYS_EnableIRQ
+ .text.INT_SYS_SetPriority
+                0x000009c4       0x8c ./src/lib/interrupt_manager.o
+                0x000009c4                INT_SYS_SetPriority
  .text.initGPDO
-                0x00000950       0x54 ./src/lib/gpio.o
-                0x00000950                initGPDO
- .text.writeGPIO
-                0x000009a4       0x60 ./src/lib/gpio.o
-                0x000009a4                writeGPIO
- .text.initECS  0x00000a04       0x20 ./src/lib/ecs.o
-                0x00000a04                initECS
+                0x00000a50       0x54 ./src/lib/gpio.o
+                0x00000a50                initGPDO
+ .text.initECS  0x00000aa4       0x20 ./src/lib/ecs.o
+                0x00000aa4                initECS
  .text.disable_WDOG
-                0x00000a24       0x2c ./src/lib/ecs.o
-                0x00000a24                disable_WDOG
+                0x00000ac4       0x2c ./src/lib/ecs.o
+                0x00000ac4                disable_WDOG
  .text.clocksToPeripherals
-                0x00000a50       0xac ./src/lib/ecs.o
-                0x00000a50                clocksToPeripherals
+                0x00000af0       0xac ./src/lib/ecs.o
+                0x00000af0                clocksToPeripherals
  .text.setEVBLED
-                0x00000afc       0xe4 ./src/lib/ecs.o
-                0x00000afc                setEVBLED
+                0x00000b9c       0xe4 ./src/lib/ecs.o
+                0x00000b9c                setEVBLED
  .text.SOSC_init_8MHz
-                0x00000be0       0x4c ./src/lib/ecs.o
-                0x00000be0                SOSC_init_8MHz
+                0x00000c80       0x4c ./src/lib/ecs.o
+                0x00000c80                SOSC_init_8MHz
  .text.SPLL_init_160MHz
-                0x00000c2c       0x64 ./src/lib/ecs.o
-                0x00000c2c                SPLL_init_160MHz
+                0x00000ccc       0x64 ./src/lib/ecs.o
+                0x00000ccc                SPLL_init_160MHz
  .text.NormalRUNmode_80MHz
-                0x00000c90       0x2c ./src/lib/ecs.o
-                0x00000c90                NormalRUNmode_80MHz
+                0x00000d30       0x2c ./src/lib/ecs.o
+                0x00000d30                NormalRUNmode_80MHz
  .text.NMI_Handler
-                0x00000cbc        0x8 ./src/lib/ecs.o
-                0x00000cbc                NMI_Handler
+                0x00000d5c        0x8 ./src/lib/ecs.o
+                0x00000d5c                NMI_Handler
  .text.HardFault_Handler
-                0x00000cc4        0x8 ./src/lib/ecs.o
-                0x00000cc4                HardFault_Handler
+                0x00000d64        0x8 ./src/lib/ecs.o
+                0x00000d64                HardFault_Handler
  .text.MemManage_Handler
-                0x00000ccc        0x8 ./src/lib/ecs.o
-                0x00000ccc                MemManage_Handler
+                0x00000d6c        0x8 ./src/lib/ecs.o
+                0x00000d6c                MemManage_Handler
  .text.BusFault_Handler
-                0x00000cd4        0x8 ./src/lib/ecs.o
-                0x00000cd4                BusFault_Handler
+                0x00000d74        0x8 ./src/lib/ecs.o
+                0x00000d74                BusFault_Handler
  .text.UsageFault_Handler
-                0x00000cdc        0x8 ./src/lib/ecs.o
-                0x00000cdc                UsageFault_Handler
+                0x00000d7c        0x8 ./src/lib/ecs.o
+                0x00000d7c                UsageFault_Handler
  .text.init_ADC0_single
-                0x00000ce4       0xbc ./src/lib/adc.o
-                0x00000ce4                init_ADC0_single
+                0x00000d84       0xbc ./src/lib/adc.o
+                0x00000d84                init_ADC0_single
  .text.ADC0_complete
-                0x00000da0       0x20 ./src/lib/adc.o
-                0x00000da0                ADC0_complete
+                0x00000e40       0x20 ./src/lib/adc.o
+                0x00000e40                ADC0_complete
  .text.read_ADC0_single
-                0x00000dc0       0x6c ./src/lib/adc.o
-                0x00000dc0                read_ADC0_single
- .text.main     0x00000e2c       0x34 ./src/lab3/lab3.o
-                0x00000e2c                main
+                0x00000e60       0x6c ./src/lib/adc.o
+                0x00000e60                read_ADC0_single
+ .text.LPUART1_init
+                0x00000ecc       0x5c ./src/lib/LPUART.o
+                0x00000ecc                LPUART1_init
+ .text.LPUART1_transmit_char
+                0x00000f28       0x30 ./src/lib/LPUART.o
+                0x00000f28                LPUART1_transmit_char
+ .text.LPUART1_receive_char
+                0x00000f58       0x48 ./src/lib/LPUART.o
+                0x00000f58                LPUART1_receive_char
+ .text.ocIsr    0x00000fa0       0x44 ./src/lab3/lab3o.o
+                0x00000fa0                ocIsr
+ .text.main     0x00000fe4      0x104 ./src/lab3/lab3o.o
+                0x00000fe4                main
  .text.SystemInit
-                0x00000e60       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
-                0x00000e60                SystemInit
+                0x000010e8       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
+                0x000010e8                SystemInit
  .text.init_data_bss
-                0x00000e90       0xf4 ./Project_Settings/Startup_Code/startup.o
-                0x00000e90                init_data_bss
+                0x00001118       0xf4 ./Project_Settings/Startup_Code/startup.o
+                0x00001118                init_data_bss
  *(.rodata)
  *(.rodata*)
+ .rodata.LED    0x0000120c       0x10 ./src/lib/gpio.o
+                0x0000120c                LED
+ .rodata.LED_BASE
+                0x0000121c       0x10 ./src/lib/gpio.o
+                0x0000121c                LED_BASE
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.glue_7t)
@@ -815,64 +844,64 @@ LOAD C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_end.o
  *(.eh_frame)
  *(.init)
  *(.fini)
-                0x00000f84                . = ALIGN (0x4)
+                0x0000122c                . = ALIGN (0x4)
 
-.vfp11_veneer   0x00000f84        0x0
+.vfp11_veneer   0x0000122c        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x00000f84        0x0
+.v4_bx          0x0000122c        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x00000f84        0x0
+.iplt           0x0000122c        0x0
  .iplt          0x00000000        0x0 C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_start.o
 
-.rel.dyn        0x00000f84        0x0
+.rel.dyn        0x0000122c        0x0
  .rel.iplt      0x00000000        0x0 C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_start.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x00000f84        0x0
-                0x00000f84                __exidx_start = .
+.ARM            0x0000122c        0x0
+                0x0000122c                __exidx_start = .
  *(.ARM.exidx*)
-                0x00000f84                __exidx_end = .
+                0x0000122c                __exidx_end = .
 
-.ctors          0x00000f84        0x0
-                0x00000f84                __CTOR_LIST__ = .
+.ctors          0x0000122c        0x0
+                0x0000122c                __CTOR_LIST__ = .
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
-                0x00000f84                __CTOR_END__ = .
+                0x0000122c                __CTOR_END__ = .
 
-.dtors          0x00000f84        0x0
-                0x00000f84                __DTOR_LIST__ = .
+.dtors          0x0000122c        0x0
+                0x0000122c                __DTOR_LIST__ = .
  *crtbegin.o(.dtors)
  *crtbegin?.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
-                0x00000f84                __DTOR_END__ = .
+                0x0000122c                __DTOR_END__ = .
 
-.preinit_array  0x00000f84        0x0
-                0x00000f84                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x0000122c        0x0
+                0x0000122c                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x00000f84                PROVIDE (__preinit_array_end, .)
+                0x0000122c                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x00000f84        0x0
-                0x00000f84                PROVIDE (__init_array_start, .)
+.init_array     0x0000122c        0x0
+                0x0000122c                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
-                0x00000f84                PROVIDE (__init_array_end, .)
+                0x0000122c                PROVIDE (__init_array_end, .)
 
-.fini_array     0x00000f84        0x0
-                0x00000f84                PROVIDE (__fini_array_start, .)
+.fini_array     0x0000122c        0x0
+                0x0000122c                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array*)
-                0x00000f84                PROVIDE (__fini_array_end, .)
-                0x00000f84                __etext = .
-                0x00000f84                __DATA_ROM = .
+                0x0000122c                PROVIDE (__fini_array_end, .)
+                0x0000122c                __etext = .
+                0x0000122c                __DATA_ROM = .
 
 .interrupts_ram
                 0x1fff8000      0x400
@@ -887,7 +916,7 @@ LOAD C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_end.o
                 0x1fff8000                __VECTOR_RAM = DEFINED (__flash_vector_table__)?ORIGIN (m_interrupts):__VECTOR_RAM__
                 0x00000400                __RAM_VECTOR_TABLE_SIZE = DEFINED (__flash_vector_table__)?0x0:(__interrupts_ram_end__ - __interrupts_ram_start__)
 
-.data           0x1fff8400       0x28 load address 0x00000f84
+.data           0x1fff8400       0x2c load address 0x0000122c
                 0x1fff8400                . = ALIGN (0x4)
                 0x1fff8400                __DATA_RAM = .
                 0x1fff8400                __data_start__ = .
@@ -897,54 +926,61 @@ LOAD C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_end.o
                 0x1fff8400       0x14 ./src/lib/gpio.o
  .data.port_base_ptrs
                 0x1fff8414       0x14 ./src/lib/gpio.o
+ .data.command  0x1fff8428        0x1 ./src/lab3/lab3o.o
+                0x1fff8428                command
  *(.jcr*)
-                0x1fff8428                . = ALIGN (0x4)
-                0x1fff8428                __data_end__ = .
-                0x00000fac                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
-                0x00000fac                __CODE_ROM = __DATA_END
+                0x1fff842c                . = ALIGN (0x4)
+ *fill*         0x1fff8429        0x3 
+                0x1fff842c                __data_end__ = .
+                0x00001258                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x00001258                __CODE_ROM = __DATA_END
 
-.igot.plt       0x1fff8428        0x0 load address 0x00000fac
+.igot.plt       0x1fff842c        0x0 load address 0x00001258
  .igot.plt      0x00000000        0x0 C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_start.o
 
-.code           0x1fff8428        0x0 load address 0x00000fac
-                0x1fff8428                . = ALIGN (0x4)
-                0x1fff8428                __CODE_RAM = .
-                0x1fff8428                __code_start__ = .
+.code           0x1fff842c        0x0 load address 0x00001258
+                0x1fff842c                . = ALIGN (0x4)
+                0x1fff842c                __CODE_RAM = .
+                0x1fff842c                __code_start__ = .
  *(.code_ram)
-                0x1fff8428                . = ALIGN (0x4)
-                0x1fff8428                __code_end__ = .
-                0x00000fac                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
+                0x1fff842c                . = ALIGN (0x4)
+                0x1fff842c                __code_end__ = .
+                0x00001258                __CODE_END = (__CODE_ROM + (__code_end__ - __code_start__))
 
 .customSectionBlock
  *(.customSection)
 
-.bss            0x20000000        0x0
+.bss            0x20000000      0x404
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                __BSS_START = .
                 0x20000000                __bss_start__ = .
  *(.bss)
  *(.bss*)
+ .bss.num_used  0x20000000        0x4 ./src/lab3/lab3o.o
  *(COMMON)
-                0x20000000                . = ALIGN (0x4)
-                0x20000000                __bss_end__ = .
-                0x20000000                __BSS_END = .
+ COMMON         0x20000004      0x400 ./src/lab3/lab3o.o
+                0x20000004                buffer
+                0x20000404                . = ALIGN (0x4)
+                0x20000404                __bss_end__ = .
+                0x20000404                __BSS_END = .
 
-.heap           0x20000000      0x400
-                0x20000000                . = ALIGN (0x8)
-                0x20000000                __end__ = .
-                0x20000000                PROVIDE (end, .)
-                0x20000000                PROVIDE (_end, .)
-                0x20000000                PROVIDE (__end, .)
-                0x20000000                __HeapBase = .
-                0x20000400                . = (. + HEAP_SIZE)
- *fill*         0x20000000      0x400 
-                0x20000400                __HeapLimit = .
-                0x20000400                __heap_limit = .
+.heap           0x20000404      0x404
+                0x20000408                . = ALIGN (0x8)
+ *fill*         0x20000404        0x4 
+                0x20000408                __end__ = .
+                0x20000408                PROVIDE (end, .)
+                0x20000408                PROVIDE (_end, .)
+                0x20000408                PROVIDE (__end, .)
+                0x20000408                __HeapBase = .
+                0x20000808                . = (. + HEAP_SIZE)
+ *fill*         0x20000408      0x400 
+                0x20000808                __HeapLimit = .
+                0x20000808                __heap_limit = .
 
-.stack          0x20000400      0x400
-                0x20000400                . = ALIGN (0x8)
-                0x20000800                . = (. + STACK_SIZE)
- *fill*         0x20000400      0x400 
+.stack          0x20000808      0x400
+                0x20000808                . = ALIGN (0x8)
+                0x20000c08                . = (. + STACK_SIZE)
+ *fill*         0x20000808      0x400 
                 0x20007000                __StackTop = (ORIGIN (m_data_2) + 0x7000)
                 0x20006c00                __StackLimit = (__StackTop - STACK_SIZE)
                 0x20007000                PROVIDE (__stack, __StackTop)
@@ -953,116 +989,160 @@ LOAD C:/NXP/S32DS_ARM_v2018.R1/S32DS/arm_ewl2/lib/armv7e-m/__arm_end.o
                 0x00000000       0x31
  *(.ARM.attributes)
  .ARM.attributes
-                0x00000000       0x33 ./src/lib/gpio.o
+                0x00000000       0x33 ./src/lib/interrupt_manager.o
  .ARM.attributes
-                0x00000033       0x33 ./src/lib/ecs.o
+                0x00000033       0x33 ./src/lib/gpio.o
  .ARM.attributes
-                0x00000066       0x33 ./src/lib/adc.o
+                0x00000066       0x33 ./src/lib/ecs.o
  .ARM.attributes
-                0x00000099       0x33 ./src/lab3/lab3.o
+                0x00000099       0x33 ./src/lib/adc.o
  .ARM.attributes
-                0x000000cc       0x33 ./Project_Settings/Startup_Code/system_S32K144.o
+                0x000000cc       0x33 ./src/lib/LPUART.o
  .ARM.attributes
-                0x000000ff       0x1b ./Project_Settings/Startup_Code/startup_S32K144.o
+                0x000000ff       0x33 ./src/lab3/lab3o.o
  .ARM.attributes
-                0x0000011a       0x33 ./Project_Settings/Startup_Code/startup.o
+                0x00000132       0x33 ./Project_Settings/Startup_Code/system_S32K144.o
  .ARM.attributes
-                0x0000014d       0x1e c:/nxp/s32ds_arm_v2018.r1/cross_tools/gcc-arm-none-eabi-4_9/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+                0x00000165       0x1b ./Project_Settings/Startup_Code/startup_S32K144.o
  .ARM.attributes
-                0x0000016b       0x1e c:/nxp/s32ds_arm_v2018.r1/cross_tools/gcc-arm-none-eabi-4_9/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+                0x00000180       0x33 ./Project_Settings/Startup_Code/startup.o
  .ARM.attributes
-                0x00000189       0x1e c:/nxp/s32ds_arm_v2018.r1/cross_tools/gcc-arm-none-eabi-4_9/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
+                0x000001b3       0x1e c:/nxp/s32ds_arm_v2018.r1/cross_tools/gcc-arm-none-eabi-4_9/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+ .ARM.attributes
+                0x000001d1       0x1e c:/nxp/s32ds_arm_v2018.r1/cross_tools/gcc-arm-none-eabi-4_9/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+ .ARM.attributes
+                0x000001ef       0x1e c:/nxp/s32ds_arm_v2018.r1/cross_tools/gcc-arm-none-eabi-4_9/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
                 0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region m_data_2 overflowed with stack and heap)
 OUTPUT(ecs.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x1561
- .debug_info    0x00000000      0x35d ./src/lib/gpio.o
- .debug_info    0x0000035d      0x4e4 ./src/lib/ecs.o
- .debug_info    0x00000841      0x2f7 ./src/lib/adc.o
- .debug_info    0x00000b38       0xa6 ./src/lab3/lab3.o
- .debug_info    0x00000bde      0x500 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_info    0x000010de       0x98 ./Project_Settings/Startup_Code/startup_S32K144.o
- .debug_info    0x00001176      0x3eb ./Project_Settings/Startup_Code/startup.o
+.debug_info     0x00000000     0x258f
+ .debug_info    0x00000000      0x8bd ./src/lib/interrupt_manager.o
+ .debug_info    0x000008bd      0x35d ./src/lib/gpio.o
+ .debug_info    0x00000c1a      0x4e4 ./src/lib/ecs.o
+ .debug_info    0x000010fe      0x2f7 ./src/lib/adc.o
+ .debug_info    0x000013f5      0x2fc ./src/lib/LPUART.o
+ .debug_info    0x000016f1      0x51b ./src/lab3/lab3o.o
+ .debug_info    0x00001c0c      0x500 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_info    0x0000210c       0x98 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_info    0x000021a4      0x3eb ./Project_Settings/Startup_Code/startup.o
 
-.debug_abbrev   0x00000000      0x5e1
- .debug_abbrev  0x00000000      0x120 ./src/lib/gpio.o
- .debug_abbrev  0x00000120      0x126 ./src/lib/ecs.o
- .debug_abbrev  0x00000246      0x10b ./src/lib/adc.o
- .debug_abbrev  0x00000351       0x63 ./src/lab3/lab3.o
- .debug_abbrev  0x000003b4      0x118 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_abbrev  0x000004cc       0x14 ./Project_Settings/Startup_Code/startup_S32K144.o
- .debug_abbrev  0x000004e0      0x101 ./Project_Settings/Startup_Code/startup.o
+.debug_abbrev   0x00000000      0x9b4
+ .debug_abbrev  0x00000000      0x18e ./src/lib/interrupt_manager.o
+ .debug_abbrev  0x0000018e      0x120 ./src/lib/gpio.o
+ .debug_abbrev  0x000002ae      0x126 ./src/lib/ecs.o
+ .debug_abbrev  0x000003d4      0x10b ./src/lib/adc.o
+ .debug_abbrev  0x000004df      0x155 ./src/lib/LPUART.o
+ .debug_abbrev  0x00000634      0x153 ./src/lab3/lab3o.o
+ .debug_abbrev  0x00000787      0x118 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_abbrev  0x0000089f       0x14 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_abbrev  0x000008b3      0x101 ./Project_Settings/Startup_Code/startup.o
 
-.debug_aranges  0x00000000      0x170
+.debug_aranges  0x00000000      0x228
  .debug_aranges
-                0x00000000       0x38 ./src/lib/gpio.o
+                0x00000000       0x70 ./src/lib/interrupt_manager.o
  .debug_aranges
-                0x00000038       0x78 ./src/lib/ecs.o
+                0x00000070       0x38 ./src/lib/gpio.o
  .debug_aranges
-                0x000000b0       0x30 ./src/lib/adc.o
+                0x000000a8       0x78 ./src/lib/ecs.o
  .debug_aranges
-                0x000000e0       0x20 ./src/lab3/lab3.o
+                0x00000120       0x30 ./src/lib/adc.o
  .debug_aranges
-                0x00000100       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
+                0x00000150       0x40 ./src/lib/LPUART.o
  .debug_aranges
-                0x00000130       0x20 ./Project_Settings/Startup_Code/startup_S32K144.o
+                0x00000190       0x28 ./src/lab3/lab3o.o
  .debug_aranges
-                0x00000150       0x20 ./Project_Settings/Startup_Code/startup.o
+                0x000001b8       0x30 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_aranges
+                0x000001e8       0x20 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_aranges
+                0x00000208       0x20 ./Project_Settings/Startup_Code/startup.o
 
-.debug_ranges   0x00000000       0xf0
- .debug_ranges  0x00000000       0x28 ./src/lib/gpio.o
- .debug_ranges  0x00000028       0x68 ./src/lib/ecs.o
- .debug_ranges  0x00000090       0x20 ./src/lib/adc.o
- .debug_ranges  0x000000b0       0x10 ./src/lab3/lab3.o
- .debug_ranges  0x000000c0       0x20 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_ranges  0x000000e0       0x10 ./Project_Settings/Startup_Code/startup.o
+.debug_ranges   0x00000000      0x188
+ .debug_ranges  0x00000000       0x60 ./src/lib/interrupt_manager.o
+ .debug_ranges  0x00000060       0x28 ./src/lib/gpio.o
+ .debug_ranges  0x00000088       0x68 ./src/lib/ecs.o
+ .debug_ranges  0x000000f0       0x20 ./src/lib/adc.o
+ .debug_ranges  0x00000110       0x30 ./src/lib/LPUART.o
+ .debug_ranges  0x00000140       0x18 ./src/lab3/lab3o.o
+ .debug_ranges  0x00000158       0x20 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_ranges  0x00000178       0x10 ./Project_Settings/Startup_Code/startup.o
 
-.debug_macro    0x00000000      0x523
- .debug_macro   0x00000000       0xb0 ./src/lib/gpio.o
- .debug_macro   0x000000b0       0xaf ./src/lib/ecs.o
- .debug_macro   0x0000015f       0x40 ./src/lib/ecs.o
- .debug_macro   0x0000019f       0xb0 ./src/lib/adc.o
- .debug_macro   0x0000024f       0xdf ./src/lab3/lab3.o
- .debug_macro   0x0000032e       0xe9 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_macro   0x00000417       0x22 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_macro   0x00000439       0xea ./Project_Settings/Startup_Code/startup.o
+.debug_macro    0x00000000     0xffe3
+ .debug_macro   0x00000000       0xea ./src/lib/interrupt_manager.o
+ .debug_macro   0x000000ea      0x868 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000952       0x52 ./src/lib/interrupt_manager.o
+ .debug_macro   0x000009a4       0xa0 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000a44       0x16 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000a5a       0x10 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000a6a       0x6d ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000ad7       0x19 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000af0       0x64 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000b54      0x185 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000cd9      0x140 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000e19       0x9d ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000eb6       0x10 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00000ec6      0x15b ./src/lib/interrupt_manager.o
+ .debug_macro   0x00001021       0x28 ./src/lib/interrupt_manager.o
+ .debug_macro   0x00001049       0x58 ./src/lib/interrupt_manager.o
+ .debug_macro   0x000010a1     0xdf8d ./src/lib/interrupt_manager.o
+ .debug_macro   0x0000f02e      0x978 ./src/lib/interrupt_manager.o
+ .debug_macro   0x0000f9a6       0x22 ./src/lib/interrupt_manager.o
+ .debug_macro   0x0000f9c8       0xb0 ./src/lib/gpio.o
+ .debug_macro   0x0000fa78       0xaf ./src/lib/ecs.o
+ .debug_macro   0x0000fb27       0x40 ./src/lib/ecs.o
+ .debug_macro   0x0000fb67       0xb0 ./src/lib/adc.o
+ .debug_macro   0x0000fc17       0xb0 ./src/lib/LPUART.o
+ .debug_macro   0x0000fcc7      0x127 ./src/lab3/lab3o.o
+ .debug_macro   0x0000fdee       0xe9 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_macro   0x0000fed7       0x22 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_macro   0x0000fef9       0xea ./Project_Settings/Startup_Code/startup.o
 
-.debug_line     0x00000000      0xf66
- .debug_line    0x00000000      0x23b ./src/lib/gpio.o
- .debug_line    0x0000023b      0x329 ./src/lib/ecs.o
- .debug_line    0x00000564      0x23c ./src/lib/adc.o
- .debug_line    0x000007a0      0x232 ./src/lab3/lab3.o
- .debug_line    0x000009d2      0x2a6 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_line    0x00000c78       0x83 ./Project_Settings/Startup_Code/startup_S32K144.o
- .debug_line    0x00000cfb      0x26b ./Project_Settings/Startup_Code/startup.o
+.debug_line     0x00000000     0x15cd
+ .debug_line    0x00000000      0x34f ./src/lib/interrupt_manager.o
+ .debug_line    0x0000034f      0x23d ./src/lib/gpio.o
+ .debug_line    0x0000058c      0x329 ./src/lib/ecs.o
+ .debug_line    0x000008b5      0x23c ./src/lib/adc.o
+ .debug_line    0x00000af1      0x26f ./src/lib/LPUART.o
+ .debug_line    0x00000d60      0x2d9 ./src/lab3/lab3o.o
+ .debug_line    0x00001039      0x2a6 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_line    0x000012df       0x83 ./Project_Settings/Startup_Code/startup_S32K144.o
+ .debug_line    0x00001362      0x26b ./Project_Settings/Startup_Code/startup.o
 
-.debug_str      0x00000000    0x6297a
- .debug_str     0x00000000    0x5dc92 ./src/lib/gpio.o
+.debug_str      0x00000000    0x6321c
+ .debug_str     0x00000000    0x62a03 ./src/lib/interrupt_manager.o
+                              0x62aa9 (size before relaxing)
+ .debug_str     0x00062a03       0xcf ./src/lib/gpio.o
                               0x5dd22 (size before relaxing)
- .debug_str     0x0005dc92      0x2bb ./src/lib/ecs.o
+ .debug_str     0x00062ad2      0x29a ./src/lib/ecs.o
                               0x5df65 (size before relaxing)
- .debug_str     0x0005df4d      0x10b ./src/lib/adc.o
+ .debug_str     0x00062d6c      0x10b ./src/lib/adc.o
                               0x5dd56 (size before relaxing)
- .debug_str     0x0005e058       0x31 ./src/lab3/lab3.o
-                              0x5dd80 (size before relaxing)
- .debug_str     0x0005e089     0x47d1 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_str     0x00062e77       0xe6 ./src/lib/LPUART.o
+                              0x5dd87 (size before relaxing)
+ .debug_str     0x00062f5d       0x73 ./src/lab3/lab3o.o
+                              0x62a10 (size before relaxing)
+ .debug_str     0x00062fd0      0x139 ./Project_Settings/Startup_Code/system_S32K144.o
                               0x624ef (size before relaxing)
- .debug_str     0x0006285a      0x120 ./Project_Settings/Startup_Code/startup.o
+ .debug_str     0x00063109      0x113 ./Project_Settings/Startup_Code/startup.o
                               0x62426 (size before relaxing)
 
 .comment        0x00000000       0x70
- .comment       0x00000000       0x70 ./src/lib/gpio.o
+ .comment       0x00000000       0x70 ./src/lib/interrupt_manager.o
                                  0x71 (size before relaxing)
+ .comment       0x00000000       0x71 ./src/lib/gpio.o
  .comment       0x00000000       0x71 ./src/lib/ecs.o
  .comment       0x00000000       0x71 ./src/lib/adc.o
- .comment       0x00000000       0x71 ./src/lab3/lab3.o
+ .comment       0x00000000       0x71 ./src/lib/LPUART.o
+ .comment       0x00000000       0x71 ./src/lab3/lab3o.o
  .comment       0x00000000       0x71 ./Project_Settings/Startup_Code/system_S32K144.o
  .comment       0x00000000       0x71 ./Project_Settings/Startup_Code/startup.o
 
-.debug_frame    0x00000000      0x37c
- .debug_frame   0x00000000       0xb0 ./src/lib/gpio.o
- .debug_frame   0x000000b0      0x170 ./src/lib/ecs.o
- .debug_frame   0x00000220       0x74 ./src/lib/adc.o
- .debug_frame   0x00000294       0x30 ./src/lab3/lab3.o
- .debug_frame   0x000002c4       0x80 ./Project_Settings/Startup_Code/system_S32K144.o
- .debug_frame   0x00000344       0x38 ./Project_Settings/Startup_Code/startup.o
+.debug_frame    0x00000000      0x61c
+ .debug_frame   0x00000000      0x1b8 ./src/lib/interrupt_manager.o
+ .debug_frame   0x000001b8       0xb0 ./src/lib/gpio.o
+ .debug_frame   0x00000268      0x170 ./src/lib/ecs.o
+ .debug_frame   0x000003d8       0x74 ./src/lib/adc.o
+ .debug_frame   0x0000044c       0xc8 ./src/lib/LPUART.o
+ .debug_frame   0x00000514       0x50 ./src/lab3/lab3o.o
+ .debug_frame   0x00000564       0x80 ./Project_Settings/Startup_Code/system_S32K144.o
+ .debug_frame   0x000005e4       0x38 ./Project_Settings/Startup_Code/startup.o

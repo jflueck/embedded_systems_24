@@ -3,11 +3,13 @@
 #include "gpio.h"
 #include "qd.h"
 #include "adc.h"
+static uint8_t LED_state;
 
 #define SECTION 2
 
 int main(void) {
-	initECS();
+
+  initECS();
 	init_ADC0_single();
 	uint32_t iAnalog;
 
@@ -20,10 +22,13 @@ int main(void) {
     initGPDO(3, 0);
 
     while (1) {
-      writeGPIO(3, 0, 0b1);
-      iAnalog = read_ADC0_single(0b000000);
-      writeGPIO(3, 0, 0b0);
+      if(read_ADC0_single(0b000000) < 2500){ // middle of the shifted sine wave with offset = 2.5V
+    	  writeGPIO(3, 0, 0b0);
+      }
+      else {
+     	  writeGPIO(3, 0, 0b1);
     }
+ }
 
   #endif
 

@@ -58,7 +58,7 @@ C_DEPS += \
 # Each subdirectory must supply rules for building sources it contributes
 src/lib/LPUART.o: ../src/lib/LPUART.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #5 $<'
+	@echo 'Executing target #6 $<'
 	@echo 'Invoking: Standard S32DS C Compiler'
 	arm-none-eabi-gcc "@src/lib/LPUART.args" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "src/lib/LPUART.o" "$<"
 	@echo 'Finished building: $<'
@@ -66,7 +66,7 @@ src/lib/LPUART.o: ../src/lib/LPUART.c
 
 src/lib/adc.o: ../src/lib/adc.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #6 $<'
+	@echo 'Executing target #7 $<'
 	@echo 'Invoking: Standard S32DS C Compiler'
 	arm-none-eabi-gcc "@src/lib/adc.args" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "src/lib/adc.o" "$<"
 	@echo 'Finished building: $<'
@@ -74,7 +74,7 @@ src/lib/adc.o: ../src/lib/adc.c
 
 src/lib/ecs.o: ../src/lib/ecs.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #7 $<'
+	@echo 'Executing target #8 $<'
 	@echo 'Invoking: Standard S32DS C Compiler'
 	arm-none-eabi-gcc "@src/lib/ecs.args" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "src/lib/ecs.o" "$<"
 	@echo 'Finished building: $<'
@@ -82,7 +82,7 @@ src/lib/ecs.o: ../src/lib/ecs.c
 
 src/lib/gpio.o: ../src/lib/gpio.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #8 $<'
+	@echo 'Executing target #9 $<'
 	@echo 'Invoking: Standard S32DS C Compiler'
 	arm-none-eabi-gcc "@src/lib/gpio.args" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "src/lib/gpio.o" "$<"
 	@echo 'Finished building: $<'
@@ -90,7 +90,7 @@ src/lib/gpio.o: ../src/lib/gpio.c
 
 src/lib/interrupt_manager.o: ../src/lib/interrupt_manager.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #9 $<'
+	@echo 'Executing target #10 $<'
 	@echo 'Invoking: Standard S32DS C Compiler'
 	arm-none-eabi-gcc "@src/lib/interrupt_manager.args" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "src/lib/interrupt_manager.o" "$<"
 	@echo 'Finished building: $<'

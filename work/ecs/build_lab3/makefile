@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 9
+#Progress monitor hint: 10
 first : all
 -include ../makefile.init
 
@@ -69,14 +69,14 @@ all: warning-messages explicit-dependencies ecs.elf secondary-outputs
 # Tool invocations
 ecs.elf: $(OBJS) C:/Users/ecs/Desktop/embedded_systems_24/work/ecs/Project_Settings/Linker_Files/S32K1xx_flash.ld $(USER_OBJS)
 	@echo 'Building target: $@'
-	@echo 'Executing target #10 $@'
+	@echo 'Executing target #11 $@'
 	@echo 'Invoking: Standard S32DS C Linker'
 	arm-none-eabi-gcc -o "ecs.elf" "@ecs.args"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 ecs.siz: $(EXECUTABLES)
-	@echo 'Executing target #11 $@'
+	@echo 'Executing target #12 $@'
 	@echo 'Invoking: Standard S32DS Print Size'
 	arm-none-eabi-size --format=berkeley $(EXECUTABLES)
 	@echo 'Finished building: $@'
