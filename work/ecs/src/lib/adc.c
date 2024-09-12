@@ -69,6 +69,6 @@ uint32_t read_ADC0_single(uint16_t inputChannel)  {
   /* 42.4.31.2 - Data Result Register*/
   adc_result = ADC0->R[0];      /* For SW trigger mode, R[0] is used */
   /* Convert result to mv for 0-5V range */
-  float conversion = 1.0;
+  float conversion = 1000.0 * 5.0/4095.0;
   return  (uint32_t) (adc_result * conversion);
 }
