@@ -64,7 +64,7 @@ void initPWM(int submodule, int channel, int frequency, float dutyCycle)
   FTM_MODULE[submodule]->SC = 0x00000000; /* Clear the status and control register */
   FTM_MODULE[submodule]->SC |= FTM_SC_CLKS(0b11); /* Select external clock */
   
-  FTM_MODULE[FTM_SC_PWMEN0submodule]->COMBINE = 0x00000000; /* FTM mode settings used: DECAPENx, MCOMBINEx, COMBINEx=0  */
+  FTM_MODULE[submodule]->COMBINE = 0x00000000; /* FTM mode settings used: DECAPENx, MCOMBINEx, COMBINEx=0  */
 
   /* Enable the respective channel */
   FTM_MODULE[submodule]->SC |= FTM_SC_PWMEN0(0b1);
