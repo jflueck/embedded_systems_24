@@ -95,7 +95,7 @@ void setPWM(int submodule, int channel, int frequency, float dutyCycle)
   uint16_t cthres;
   uint16_t cmax;
 
-  cmax = 1/frequency * PWM_CLOCK_FREQ - 1;
+  cmax = (PWM_CLOCK_FREQ / frequency) - 1;
   cthres = dutyCycle * (cmax + 1);
 
   FTM_MODULE[submodule]->MOD = FTM_MOD_MOD(cmax); /* Set the PWM frequency */
