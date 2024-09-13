@@ -110,10 +110,17 @@ void setPWM(int submodule, int channel, int frequency, float dutyCycle)
 void outputTorque(float torque)
 {
   // Calculate duty cycle
-
+  float dutyCycle = (torque / 1581.25) + 0.5;
 
   // Apply DC_UPPER_LIMIT, DC_LOWER_LIMIT
- 
+ if (dutyCycle > DC_UPPER_LIMIT)
+ {
+  dutyCycle = DC_UPPER_LIMIT;
+ }
+  else if (dutyCycle < DC_LOWER_LIMIT)
+  {
+    dutyCycle = DC_LOWER_LIMIT;
+  }
 
   // Adjust the motor PWM
   setPWM(MOTOR_SUBMODULE, MOTOR_CHANNEL, MOTOR_FREQUENCY, dutyCycle);
