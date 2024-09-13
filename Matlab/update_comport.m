@@ -2,7 +2,7 @@ diag_stage = sldiagviewer.createStage('Find S32k COM port', 'ModelName', gcs);
 
 %% find S32k dev board
 dev_name = 'OpenSDA - CDC Serial Port (http://www.pemicro.com/opensda)';
-
+dev_name = 'COM3';
 port_name = get_port_name(dev_name);
 
 if (isempty(port_name))
