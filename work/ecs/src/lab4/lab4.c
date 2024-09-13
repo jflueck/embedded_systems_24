@@ -33,6 +33,7 @@ int main(void)
     switch(section)
     {
 	case 1: // 0 Torque
+		outputTorque(0.0);
 	  break;
     case 2: //Analog Input Control of PWM
       /* fill in */ 

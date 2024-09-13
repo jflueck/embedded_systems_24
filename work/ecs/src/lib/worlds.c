@@ -24,13 +24,18 @@
  ***************************************************************************/
 float virtualWall(float angle)
 {
+	float k_spring = 500	// [N-mm/deg]
+	return (-k_spring * angle);
 }
 
 /***************************************************************************
  * Virtual Spring 
+ * angle in degrees
  ***************************************************************************/
 float virtualSpring(float angle)
 { 
+	float k_spring = 50	// [N-mm/deg]
+	return (-k_spring * angle);
 }
 
 //====================LAB 6================================
