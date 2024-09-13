@@ -24,7 +24,7 @@
  ***************************************************************************/
 float virtualWall(float angle)
 {
-	float k_spring = 500	// [N-mm/deg]
+	float k_spring = 500;	// [N-mm/deg]
 	return (-k_spring * angle);
 }
 
@@ -34,7 +34,7 @@ float virtualWall(float angle)
  ***************************************************************************/
 float virtualSpring(float angle)
 { 
-	float k_spring = 50	// [N-mm/deg]
+	float k_spring = 50;	// [N-mm/deg]
 	return (-k_spring * angle);
 }
 
@@ -44,6 +44,7 @@ float virtualSpring(float angle)
 ***************************************************************************/
 float virtualSpringDamper(float angle, float velocity)
 {
+	return 0.0;
 }
 
 /***************************************************************************
@@ -51,6 +52,7 @@ float virtualSpringDamper(float angle, float velocity)
 ***************************************************************************/
 float virtualWallDamper(float angle, float velocity)
 {
+	return 0.0;
 }
 
 /***************************************************************************
@@ -58,6 +60,7 @@ float virtualWallDamper(float angle, float velocity)
 ***************************************************************************/
 float virtualSpringMass(float angle)
 {        
+	return 0.0;
 }
 
 /***************************************************************************
@@ -65,6 +68,7 @@ float virtualSpringMass(float angle)
 ***************************************************************************/
 float virtualSpringMassDamper(float angle, float velocity) 
 {      
+	return 0.0;
 }
 
 /***************************************************************************
@@ -72,6 +76,7 @@ float virtualSpringMassDamper(float angle, float velocity)
 ***************************************************************************/ 
 float virtualKnob(float angle, float velocity) 
 {     
-  //There are many ways this can be implemented    
+  //There are many ways this can be implemented
+	return 0.0;
 }
 
