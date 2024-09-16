@@ -31,7 +31,7 @@ const float PI = 3.14159;
 // Addtional variables
 static int i = 0;
 float duty_cycle;
-float ratio = (10000000u / 60000);
+float ratio = (10000000u / 600000);
 
 void IsrA(void){
 
@@ -102,20 +102,21 @@ void IsrB(void){
 void IsrC(void){
 
 	/* Turn on LED */
-  PTD->PDOR |= 0b1 << 0;
+  PTD->PDOR = 0b1;
 
 	/* Calculate and set PWM duty cycle */
-	i = (i + 1);
-	duty_cycle = 0.5f + 0.4f * sineTable[i%10];
+	i++;
+	if (i>=10) i = 0;
+	duty_cycle = 5 + 4 * sineTable[i];
 
 	// setting the PWM
   FTM0->CONTROLS[0].CnV = ((uint32_t)(duty_cycle * ratio))&0xFFFFu; /* Set the PWM duty cycle */
 
 	/* Turn off LED */
-  PTD->PDOR &= ~(1 << 0);
+  PTD->PDOR = 0b0;
 
 	/* Clear interrupt flag */
-	LPIT0->MSR |= 0b1 << LPIT0_CHANNEL;   /* clear TIFn */
+	LPIT0->MSR = 0b1;   /* clear TIFn */
 
 }
 
