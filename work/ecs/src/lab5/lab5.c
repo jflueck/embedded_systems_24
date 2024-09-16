@@ -28,62 +28,91 @@ float sineTable[10]; // Ten samples/period
 int sineIndex = 0;
 const float PI = 3.14159;
 
+// Addtional variables
+uint8_t OUTPUT_LED_BASE = LED_BASE[0];
+uint8_t OUTPUT_LED_PIN = LED[0];
 
 void IsrA(void){
 
  	/* Turn on LED */
-	/* fill in here */
+	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b1);	
 
 	/* Read sine value */
-	/* fill in here */
+	uint32_t input_sine_value = read_ADC0_single(0b000000);
 
 	/* Calculate PWM duty cycle */
-	/* fill in here */
+	uint8_t dipswitch_2_val = readGPIO(DIP_BASE[1], DIP[1]);
+	float pwm_duty_cycle;
+	float m, b; // Constants in y = mx + b
+	if (dipswitch_2_val) {
+		m = 0.00016;
+		b = 0.1;
+	}
+	else {
+		m = 0.00004;
+		b = 0.4;
+	}
+	pwm_duty_cycle = m * input_sine_value + b;
 
 	/* Set PWM frequency based on dipswitch */
-	/* fill in here */
+	uint8_t dipswitch_1_val = readGPIO(DIP_BASE[0], DIP[0]);	
+	float pwm_frequency;	// [kHz]
+	if (dipswitch_1_val) {
+		pwm_frequency = 60000;
+	}
+	else {
+		pwm_frequency = 20000;
+	}
 
 	/* Set PWM duty cycle and frequency */
-	/* fill in here */
+	setPWM(0, 0, pwm_frequency, pwm_duty_cycle);
 
 	/* Turn off LED */
-	/* fill in here */
+	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b0);
 
 	/* Clear interrupt flag */
-	/* fill in here */
-
-
+	clearFlagLPIT(LPIT0_CHANNEL);
 }
 
 void IsrB(void){
 
 	/* Turn on LED */
-	/* fill in here */
+	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b1);
 
 	/* Calculate and set PWM duty cycle */
-	/* fill in here */
+	static int i = 0;
+	float theta;
+	float duty_cycle;
+	theta = 2 * PI * i / 10;
+	i = (i + 1) % 10;
+	duty_cycle = ((float)0.5) + ((float)0.4) * sinf(theta);
 
 	/* Turn off LED */
-	/* fill in here */
+	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b0);
 
 	/* Clear interrupt flag */
-	/* fill in here */
+	clearFlagLPIT(LPIT0_CHANNEL);
 
 }
 
 void IsrC(void){
 
 	/* Turn on LED */
-	/* fill in here */
+	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b1);
 
 	/* Calculate and set PWM duty cycle */
-	/* fill in here */
+	static int i = 0;
+	float theta, duty_cycle;
+	
+	theta = 2 * PI * i / 10;
+	i = (i + 1) % 10;
+	duty_cycle = ((float)0.5) + ((float)0.4) * sineTable[i];
 
 	/* Turn off LED */
-	/* fill in here */
+	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b0);
 
 	/* Clear interrupt flag */
-	/* fill in here */
+	clearFlagLPIT(LPIT0_CHANNEL);
 
 }
 
@@ -94,10 +123,13 @@ int main(){
   init_ADC0_single();
 
   /* Initialize PWMs  */
-  /* fill in */
+  initPWMPCRs();
+  initPWM(0, 0, 20000, 0.5);	
 
   /* Initialize GPIO  */
-  /*   fill in    */
+  initGPDI(DIP_BASE[0], DIP[0]);	// Dipswitch 1
+  initGPDI(DIP_BASE[1], DIP[1]);	// Dipswitch 2
+  initGPDO(OUTPUT_LED_BASE, OUTPUT_LED_PIN);	// LED 0
 
   initLPIT(LPIT0_CHANNEL, 1000, &IsrA, 0xC);
 
