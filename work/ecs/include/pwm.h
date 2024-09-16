@@ -28,6 +28,8 @@
 
 #define FILTER_DUTY_CYCLE 0.5f
 
+//FTM_Type * FTM_MODULE[4] = FTM_BASE_PTRS;
+
 /* Functions for PWM */
 void initPWMPCRs();
 void setPWM(const int submodule, const int channel, const int frequency, const float dutyCycle);

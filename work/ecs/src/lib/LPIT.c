@@ -32,17 +32,17 @@ void enableLPIT(){
 
 void initLPIT(const uint8_t channel, const uint32_t frequency, const isr_t handler, const uint32_t priority) {
   /* 46.4.1.9.3 Timer Value Register   */
-  LPIT0->TMR[channel].TVAL = SPLLDIV2_CLK / frequency - 1; ;    /* channel timer start value */
+  LPIT0->TMR[channel].TVAL = SPLLDIV2_CLK_FREQ / frequency - 1;    /* channel timer start value */
   
   /* 46.4.1.6.2 Module Interrupt Enable Register */
   LPIT0->MIER |= 0b1 << channel;    /* Timer Interrupt Enabled for Channel */
   
   /* 46.4.1.9.3 Timer Control Register */  
   LPIT0->TMR[channel].TCTRL &= ~(LPIT_TMR_TCTRL_T_EN_MASK); /* T_EN : Timer channel is disabled to set registers*/
-  LPIT0->TMR[channel].MODE &= ~(LPIT_TMR_TCTRL_MODE_MASK); /* MODE :  32 periodic counter mode */
-  LPIT0->TMR[channel].TSOT &= ~(LPIT_TMR_TCTRL_TSOT_MASK);  /* TSOT : Timer decrements immediately based on restart */
-  LPIT0->TMR[channel].TSOI &= ~(LPIT_TMR_TCTRL_TSOI_MASK); /* TSOI :  Timer does not stop after timeout */
-  LPIT0->TMR[channel].TROT &= ~(LPIT_TMR_TCTRL_TROT_MASK);  /* TROT : ignore external trigger */
+  LPIT0->TMR[channel].TCTRL &= ~(LPIT_TMR_TCTRL_MODE_MASK); /* MODE :  32 periodic counter mode */
+  LPIT0->TMR[channel].TCTRL &= ~(LPIT_TMR_TCTRL_TSOT_MASK);  /* TSOT : Timer decrements immediately based on restart */
+  LPIT0->TMR[channel].TCTRL &= ~(LPIT_TMR_TCTRL_TSOI_MASK); /* TSOI :  Timer does not stop after timeout */
+  LPIT0->TMR[channel].TCTRL &= ~(LPIT_TMR_TCTRL_TROT_MASK);  /* TROT : ignore external trigger */
  
   /* 46.4.1.7.3 Set Timer Enable Register   */                                                 
   LPIT0->SETTEN |= 0b1 << channel;    /*SET_T_EN_n :  enable timer for channel */
@@ -56,6 +56,6 @@ void initLPIT(const uint8_t channel, const uint32_t frequency, const isr_t handl
 
 void clearFlagLPIT(const uint8_t channel){
   /* 46.4.1.5.3 Module Status Register  */
-  LPIT0->MSR &= ~(0b1 << channel);   /* clear TIFn */
+  LPIT0->MSR |= 0b1 << channel;   /* clear TIFn */
 }
 

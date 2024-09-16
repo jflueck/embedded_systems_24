@@ -29,13 +29,14 @@ int sineIndex = 0;
 const float PI = 3.14159;
 
 // Addtional variables
-uint8_t OUTPUT_LED_BASE = LED_BASE[0];
-uint8_t OUTPUT_LED_PIN = LED[0];
+static int i = 0;
+float duty_cycle;
+float ratio = (10000000u / 60000);
 
 void IsrA(void){
 
  	/* Turn on LED */
-	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b1);	
+	writeGPIO(LED_BASE[0], LED[0], 0b1);
 
 	/* Read sine value */
 	uint32_t input_sine_value = read_ADC0_single(0b000000);
@@ -68,7 +69,7 @@ void IsrA(void){
 	setPWM(0, 0, pwm_frequency, pwm_duty_cycle);
 
 	/* Turn off LED */
-	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b0);
+	writeGPIO(LED_BASE[0], LED[0], 0b0);
 
 	/* Clear interrupt flag */
 	clearFlagLPIT(LPIT0_CHANNEL);
@@ -77,7 +78,7 @@ void IsrA(void){
 void IsrB(void){
 
 	/* Turn on LED */
-	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b1);
+	writeGPIO(LED_BASE[0], LED[0], 0b1);
 
 	/* Calculate and set PWM duty cycle */
 	static int i = 0;
@@ -85,10 +86,13 @@ void IsrB(void){
 	float duty_cycle;
 	theta = 2 * PI * i / 10;
 	i = (i + 1) % 10;
-	duty_cycle = ((float)0.5) + ((float)0.4) * sinf(theta);
+	duty_cycle = (0.5f) + (0.4f) * sinf(theta);
+
+	// setting the PWM
+	setPWM(0,0,60000,duty_cycle);
 
 	/* Turn off LED */
-	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b0);
+	writeGPIO(LED_BASE[0], LED[0], 0b0);
 
 	/* Clear interrupt flag */
 	clearFlagLPIT(LPIT0_CHANNEL);
@@ -98,26 +102,24 @@ void IsrB(void){
 void IsrC(void){
 
 	/* Turn on LED */
-	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b1);
+  PTD->PDOR |= 0b1 << 0;
 
 	/* Calculate and set PWM duty cycle */
-	static int i = 0;
-	float theta, duty_cycle;
-	
-	theta = 2 * PI * i / 10;
-	i = (i + 1) % 10;
-	duty_cycle = ((float)0.5) + ((float)0.4) * sineTable[i];
+	i = (i + 1);
+	duty_cycle = 0.5f + 0.4f * sineTable[i%10];
+
+	// setting the PWM
+  FTM0->CONTROLS[0].CnV = ((uint32_t)(duty_cycle * ratio))&0xFFFFu; /* Set the PWM duty cycle */
 
 	/* Turn off LED */
-	writeGPIO(OUTPUT_LED_BASE, OUTPUT_LED_PIN, 0b0);
+  PTD->PDOR &= ~(1 << 0);
 
 	/* Clear interrupt flag */
-	clearFlagLPIT(LPIT0_CHANNEL);
+	LPIT0->MSR |= 0b1 << LPIT0_CHANNEL;   /* clear TIFn */
 
 }
 
 int main(){
-
   initECS();
   enableLPIT();
   init_ADC0_single();
@@ -125,16 +127,23 @@ int main(){
   /* Initialize PWMs  */
   initPWMPCRs();
   initPWM(0, 0, 20000, 0.5);	
+  initPWM(3,0, 1000000, 0.5);
 
   /* Initialize GPIO  */
   initGPDI(DIP_BASE[0], DIP[0]);	// Dipswitch 1
   initGPDI(DIP_BASE[1], DIP[1]);	// Dipswitch 2
-  initGPDO(OUTPUT_LED_BASE, OUTPUT_LED_PIN);	// LED 0
+  initGPDO(LED_BASE[0], LED[0]);	// LED 0
 
-  initLPIT(LPIT0_CHANNEL, 1000, &IsrA, 0xC);
+  int index = 0;
+  for (index=0; index < 10; index++) {
+    sineTable[index] = sinf(2 * PI * index / 10);
+  }
+
+  FTM0->MOD = ((10000000u / 60000) - 1)&0xFFFFu; /* Set the PWM frequency */
+  initLPIT(LPIT0_CHANNEL, 1000, &IsrC, 0xC);
 
   while(1){
-    /*Loop forever */
+    //IsrB();/*Loop forever */
   };
 }
 
