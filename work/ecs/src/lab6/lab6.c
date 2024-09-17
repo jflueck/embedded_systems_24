@@ -78,15 +78,19 @@ void springMassDamper(void){
 
 void knobIndents(void){
   /* ISR for the virtual knob system */
-
+  static float angle = 0;
+    float current_angle = updateAngle();
+  outputTorque(virtualKnob(current_angle, ((current_angle - angle)/TIMESTEP)));
+  angle = current_angle;
   /* Make sure to clear interrupt flag */
+  clearFlagLPIT(WORLDISR_LPIT_CHANNEL);
 
 }
 
 int main(void) {
   char byte_in = 0;
   void (*interrupt)(void);
-  int section = 5;
+  int section = 6;
 
   initECS();
   initQD();
@@ -144,19 +148,19 @@ int main(void) {
       byte_in = LPUART1_receive_char();
       /* adjust K and M from the keyboard. Must be a critical section. */
       DISABLE_INTERRUPTS();
-      if (byte_in == 73) {  // i
+      if (byte_in == 105) {  // i
         K_SPRING *= 1.1;
         LPUART1_transmit_string("\nI\n");
       }
-      else if (byte_in == 75) { // k
+      else if (byte_in == 107) { // k
         K_SPRING *= 0.9;
         LPUART1_transmit_string("\nK\n");
       }
-      else if (byte_in == 85) { // u
+      else if (byte_in == 117) { // u
         J_INERTIA *= 1.1;
         LPUART1_transmit_string("\nU\n");
       }
-      else if (byte_in == 74) { // j
+      else if (byte_in == 106) { // j
         J_INERTIA *= 0.9;
         LPUART1_transmit_string("\nJ\n");
       }

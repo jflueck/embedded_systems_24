@@ -126,29 +126,12 @@ float virtualSpringMassDamper(float angle, float velocity)
 ***************************************************************************/ 
 float virtualKnob(float angle, float velocity) 
 {     
-	// System parameters
-	float k_spring = 17.7;		// [N-mm/deg]
-	float j_inertia = 0.45;		// [N-mm/(deg/sec)^2]
-	float b_damping = 0.0177;	// [N-mm/(deg/sec)]
+	float k_spring = 50; // [N-mm/deg]
+	float b_damping = 1.25;  // [N-mm/(deg/sec)]
 
-	// Initial conditions 
-	static float x_1 = 0;		// [deg]
-	static float x_2 = 0;		// [deg/sec]
+	float angle_knob = 20;
+	int n = (int)(angle/angle_knob + 0.5);
 
-	// Integration
-	float x_1_next = x_1 + TIMESTEP * x_2;
-	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*angle;
-
-	float torque_on_puck = k_spring*(x_1 - angle) + b_damping*(x_2 - velocity); 
-
-	x_1 = x_1_next;
-	x_2 = x_2_next;
-
-	// Applying virtual knob behavior
-	if (((int)angle) % 45 == 0) {
-		return -torque_on_puck;
-	}
-
-	return 0.0;
+	return -k_spring*(angle - n*angle_knob)-b_damping*velocity;
 }
 
