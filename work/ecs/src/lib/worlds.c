@@ -48,7 +48,12 @@ float virtualSpring(float angle)
 ***************************************************************************/
 float virtualSpringDamper(float angle, float velocity)
 {
-	return 0.0;
+	float k_spring = 50;			// [N-mm/deg]	
+	float b_m_damping = 0.0013;		// [N-m/(rad/sec)]
+	float J_inertia = 0.00045;		// [N-m/(rad/sec)^2]
+	float b_damping = 1.23;			// [N-mm/(deg/sec)]
+
+	return -k_spring*(angle) - b_damping*(velocity);	
 }
 
 /***************************************************************************
@@ -56,14 +61,19 @@ float virtualSpringDamper(float angle, float velocity)
 ***************************************************************************/
 float virtualWallDamper(float angle, float velocity)
 {
-	return 0.0;
+	float k_spring = 500;	// [N-mm/deg]
+	float t = 0.0001;		// [sec]
+	return -k_spring*(angle + (t/2)*velocity);
 }
 
 /***************************************************************************
  * Virtual Spring Mass
 ***************************************************************************/
 float virtualSpringMass(float angle)
-{        
+{      
+	float k_spring;		// [N-mm/deg]
+	float j_inertia;	// [N-mm/(deg/sec)^2]
+
 	return 0.0;
 }
 
@@ -71,7 +81,10 @@ float virtualSpringMass(float angle)
  * Virtual Spring Mass Damper
 ***************************************************************************/
 float virtualSpringMassDamper(float angle, float velocity) 
-{      
+{    
+	float k_spring;		// [N-mm/deg]
+	float j_inertia;	// [N-mm/(deg/sec)^2]
+	float b_damping;	// [N-mm/(deg/sec)]
 	return 0.0;
 }
 
