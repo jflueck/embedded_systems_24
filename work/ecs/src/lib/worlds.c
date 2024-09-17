@@ -111,6 +111,7 @@ float virtualSpringMassDamper(float angle, float velocity)
 	static float x_2 = 0;
 	static float z = WALL_POSITION;	// [deg]
 
+	// Integration
 	float x_1_next = x_1 + TIMESTEP * x_2;
 	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*z;
 
