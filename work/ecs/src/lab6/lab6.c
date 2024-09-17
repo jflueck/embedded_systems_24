@@ -21,6 +21,10 @@
 #include "gpio.h"
 #include "s32_core_cm4.h"
 
+// Initial values for spring constant and inertia. Will be changed
+volatile float K_SPRING = 17.7;
+volatile float J_INERTIA = 0.45;
+
 void wallDamper(void){
   /* ISR for the wall-damper system */
 	static float angle = 0;
@@ -82,7 +86,7 @@ void knobIndents(void){
 int main(void) {
   char byte_in = 0;
   void (*interrupt)(void);
-  int section = 4;
+  int section = 5;
 
   initECS();
   initQD();
@@ -133,10 +137,32 @@ int main(void) {
   //each part of the lab. Be sure to use the correct channel specified in worlds.h
   initLPIT(WORLDISR_LPIT_CHANNEL, WORLDISR_FREQUENCY, interrupt, 0xC);
 
+
+
   while(1){
     if(section == 5){
       byte_in = LPUART1_receive_char();
       /* adjust K and M from the keyboard. Must be a critical section. */
+      DISABLE_INTERRUPTS();
+      if (byte_in == 73) {  // i
+        K_SPRING *= 1.1;
+        LPUART1_transmit_string("\nI\n");
+      }
+      else if (byte_in == 75) { // k
+        K_SPRING *= 0.9;
+        LPUART1_transmit_string("\nK\n");
+      }
+      else if (byte_in == 85) { // u
+        J_INERTIA *= 1.1;
+        LPUART1_transmit_string("\nU\n");
+      }
+      else if (byte_in == 74) { // j
+        J_INERTIA *= 0.9;
+        LPUART1_transmit_string("\nJ\n");
+      }
+
+      ENABLE_INTERRUPTS();
+
     }
   }
 

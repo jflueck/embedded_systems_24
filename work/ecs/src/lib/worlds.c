@@ -16,7 +16,7 @@
 
 #include "worlds.h"
 #include "gpio.h"
- 
+
 
 //====================LAB 4================================
 /***************************************************************************
@@ -101,8 +101,8 @@ float virtualSpringMass(float angle)
 float virtualSpringMassDamper(float angle, float velocity) 
 {    
 	// System parameters
-	float k_spring = 17.7;		// [N-mm/deg]
-	float j_inertia = 0.45;		// [N-mm/(deg/sec)^2]
+	float k_spring = K_SPRING;		// [N-mm/deg]
+	float j_inertia = J_INERTIA;		// [N-mm/(deg/sec)^2]
 	float b_damping = 0.01777;	// [N-mm/(deg/sec)]
 
 	// Initial conditions 

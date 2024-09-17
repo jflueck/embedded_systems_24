@@ -31,4 +31,8 @@ float virtualSpringMass(float angle);
 float virtualSpringMassDamper(float angle, float velocity);
 float virtualKnob(float angle, float velocity);
 
+// Additional variables
+extern volatile float K_SPRING;
+extern volatile float J_INERTIA;
+
 #endif /* WORLDS_H_ */
