@@ -82,18 +82,17 @@ float virtualSpringMass(float angle)
 	// Initial conditions
 	static float x_1 = 0;
 	static float x_2 = 0;
-	static float z = WALL_POSITION;	// [deg]
 
 	// Integration
 	float x_1_next = x_1 + TIMESTEP * x_2;
-	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*z;
+	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*angle;
 
-	float torque_on_puck = k_spring*(angle - z); 
+	float torque_on_puck = k_spring*(x_1 - angle); 
 
-	x_1 = angle;
+	x_1 = x_1_next;
 	x_2 = x_2_next;
 
-	return torque_on_puck;
+	return -torque_on_puck;
 }
 
 /***************************************************************************
