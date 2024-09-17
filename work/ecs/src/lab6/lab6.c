@@ -17,12 +17,30 @@
 #include "pwm.h"
 #include "worlds.h"
 
+// Additional imports
+#include "gpio.h"
+
 
 void wallDamper(void){
   /* ISR for the wall-damper system */
+	static float angle = 0;
+	float current_angle = updateAngle();
+
+	uint8_t dipswitch_1_val = readGPIO(DIP_BASE[0], DIP[0]);
+
+	float output_torque;
+	if (dipswitch_1_val) {
+	  output_torque = virtualWallDamper(current_angle, ((current_angle - angle)/TIMESTEP));
+	}
+	else {
+	  output_torque = virtualWall(current_angle);
+	}
+
+	outputTorque(output_torque);
+	angle = current_angle;
 
   /* Make sure to clear interrupt flag */
-
+	clearFlagLPIT(WORLDISR_LPIT_CHANNEL);
 }
 
 void springDamper(void){
@@ -56,7 +74,7 @@ void knobIndents(void){
 int main(void) {
   char byte_in = 0;
   void (*interrupt)(void);
-  int section = 6;
+  int section = 1;
 
   initECS();
   initQD();
@@ -67,6 +85,9 @@ int main(void) {
 
   initPWM(MOTOR_SUBMODULE, MOTOR_CHANNEL, MOTOR_FREQUENCY, 0.5f);
   initPWM(FILTER_SUBMODULE, FILTER_CHANNEL, FILTER_FREQUENCY, 0.5f);
+
+  // Init
+  initGPDI(DIP_BASE[0], DIP[0]);
 
   if(section == 5)
   {
@@ -102,7 +123,7 @@ int main(void) {
 
   //Fill in the arguments to initialize the appropriate interrupt routine for
   //each part of the lab. Be sure to use the correct channel specified in worlds.h
-  initLPIT(/* fill in */, WORLDISR_FREQUENCY, /* fill in */, 0xC);
+  initLPIT(WORLDISR_LPIT_CHANNEL, WORLDISR_FREQUENCY, interrupt, 0xC);
 
   while(1){
     if(section == 5){

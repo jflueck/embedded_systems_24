@@ -25,7 +25,7 @@
 float virtualWall(float angle)
 {
 	if (angle <= 0.0) {
-		float k_spring = 800;	// [N-mm/deg]
+		float k_spring = 10000;	// [N-mm/deg]
 		return (-k_spring * angle);
 	}
 
@@ -62,9 +62,9 @@ float virtualSpringDamper(float angle, float velocity)
 float virtualWallDamper(float angle, float velocity)
 {
 	if (angle <= 0.0) {
-		float k_spring = 500;	// [N-mm/deg]
-		float b_damping = 0.25;	// [N-mm/(deg/sec)]
-		return (-k_spring*angle) + (b_damping*velocity);	
+		float k_spring = 10000;	// [N-mm/deg]
+		float b_damping = 5.0;	// [N-mm/(deg/sec)]
+		return (-k_spring*angle) + (-b_damping*velocity);
 	}
 
 	return 0.0;	
