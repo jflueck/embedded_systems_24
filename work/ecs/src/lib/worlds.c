@@ -61,9 +61,13 @@ float virtualSpringDamper(float angle, float velocity)
 ***************************************************************************/
 float virtualWallDamper(float angle, float velocity)
 {
-	float k_spring = 500;	// [N-mm/deg]
-	float t = 0.0001;		// [sec]
-	return -k_spring*(angle + (t/2)*velocity);
+	if (angle <= 0.0) {
+		float k_spring = 500;	// [N-mm/deg]
+		float b_damping = 0.25;	// [N-mm/(deg/sec)]
+		return (-k_spring*angle) + (b_damping*velocity);	
+	}
+
+	return 0.0;	
 }
 
 /***************************************************************************
@@ -71,10 +75,22 @@ float virtualWallDamper(float angle, float velocity)
 ***************************************************************************/
 float virtualSpringMass(float angle)
 {      
-	float k_spring;		// [N-mm/deg]
-	float j_inertia;	// [N-mm/(deg/sec)^2]
+	float k_spring = 17.7;		// [N-mm/deg]
+	float j_inertia = 0.45;		// [N-mm/(deg/sec)^2]
 
-	return 0.0;
+	static float x_1 = 0;
+	static float x_2 = 0;
+	static float z = WALL_POSITION;	// [deg]
+
+	float x_1_next = x_1 + TIMESTEP * x_2;
+	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*z;
+
+	float torque_on_puck = -1 * (k_spring * angle - z); 
+
+	x_1 = x_1_next;
+	x_2 = x_2_next;
+
+	return torque_on_puck;
 }
 
 /***************************************************************************
@@ -85,7 +101,20 @@ float virtualSpringMassDamper(float angle, float velocity)
 	float k_spring;		// [N-mm/deg]
 	float j_inertia;	// [N-mm/(deg/sec)^2]
 	float b_damping;	// [N-mm/(deg/sec)]
-	return 0.0;
+
+	static float x_1 = 0;
+	static float x_2 = 0;
+	static float z = WALL_POSITION;	// [deg]
+
+	float x_1_next = x_1 + TIMESTEP * x_2;
+	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*z;
+
+	float torque_on_puck = -1 * (k_spring * angle + b_damping * velocity); 
+
+	x_1 = x_1_next;
+	x_2 = x_2_next;
+
+	return torque_on_puck;
 }
 
 /***************************************************************************
