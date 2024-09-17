@@ -19,7 +19,7 @@
 
 // Additional imports
 #include "gpio.h"
-
+#include "s32_core_cm4.h"
 
 void wallDamper(void){
   /* ISR for the wall-damper system */
@@ -45,22 +45,30 @@ void wallDamper(void){
 
 void springDamper(void){
   /* ISR for the spring-damper system */
-
+  static float angle = 0;
+  float current_angle = updateAngle();
+  outputTorque(virtualSpringDamper(current_angle, ((current_angle - angle)*10/TIMESTEP)));
+  angle = current_angle;
   /*  Make sure to clear interrupt flag  */
-
+  clearFlagLPIT(WORLDISR_LPIT_CHANNEL);
 }
 
 void springMass(void){
   /* ISR for the spring-mass system */
-
+  outputTorque(virtualSpringMass(updateAngle()));
   /* Make sure to clear interrupt flag */
-
+  clearFlagLPIT(WORLDISR_LPIT_CHANNEL);
 }
 
 void springMassDamper(void){
   /* ISR for the spring-mass-damper system */
+  static float angle = 0;
+  float current_angle = updateAngle();
+  outputTorque(virtualSpringMassDamper(current_angle, ((current_angle - angle)/TIMESTEP)));
+  angle = current_angle;
 
   /* Make sure to clear interrupt flag  */
+  clearFlagLPIT(WORLDISR_LPIT_CHANNEL);
 
 }
 
@@ -74,7 +82,7 @@ void knobIndents(void){
 int main(void) {
   char byte_in = 0;
   void (*interrupt)(void);
-  int section = 1;
+  int section = 4;
 
   initECS();
   initQD();

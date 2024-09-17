@@ -51,7 +51,7 @@ float virtualSpringDamper(float angle, float velocity)
 	float k_spring = 50;			// [N-mm/deg]	
 	float b_m_damping = 0.0013;		// [N-m/(rad/sec)]
 	float J_inertia = 0.00045;		// [N-m/(rad/sec)^2]
-	float b_damping = 1.23;			// [N-mm/(deg/sec)]
+	float b_damping = 1.25;			// [N-mm/(deg/sec)]
 
 	return -k_spring*(angle) - b_damping*(velocity);	
 }
@@ -103,7 +103,7 @@ float virtualSpringMassDamper(float angle, float velocity)
 	// System parameters
 	float k_spring = 17.7;		// [N-mm/deg]
 	float j_inertia = 0.45;		// [N-mm/(deg/sec)^2]
-	float b_damping = 0.0177;	// [N-mm/(deg/sec)]
+	float b_damping = 0.01777;	// [N-mm/(deg/sec)]
 
 	// Initial conditions 
 	static float x_1 = 0;		// [deg]
@@ -111,7 +111,7 @@ float virtualSpringMassDamper(float angle, float velocity)
 
 	// Integration
 	float x_1_next = x_1 + TIMESTEP * x_2;
-	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*angle;
+	float x_2_next = (1 - b_damping*TIMESTEP/j_inertia)*x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*angle + b_damping*TIMESTEP/j_inertia * velocity;
 
 	float torque_on_puck = k_spring*(x_1 - angle) + b_damping*(x_2 - velocity); 
 
