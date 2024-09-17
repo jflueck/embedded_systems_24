@@ -75,19 +75,22 @@ float virtualWallDamper(float angle, float velocity)
 ***************************************************************************/
 float virtualSpringMass(float angle)
 {      
+	// System parameters
 	float k_spring = 17.7;		// [N-mm/deg]
 	float j_inertia = 0.45;		// [N-mm/(deg/sec)^2]
 
+	// Initial conditions
 	static float x_1 = 0;
 	static float x_2 = 0;
 	static float z = WALL_POSITION;	// [deg]
 
+	// Integration
 	float x_1_next = x_1 + TIMESTEP * x_2;
 	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*z;
 
-	float torque_on_puck = -1 * (k_spring * angle - z); 
+	float torque_on_puck = k_spring*(angle - z); 
 
-	x_1 = x_1_next;
+	x_1 = angle;
 	x_2 = x_2_next;
 
 	return torque_on_puck;
@@ -98,10 +101,12 @@ float virtualSpringMass(float angle)
 ***************************************************************************/
 float virtualSpringMassDamper(float angle, float velocity) 
 {    
+	// System parameters
 	float k_spring;		// [N-mm/deg]
 	float j_inertia;	// [N-mm/(deg/sec)^2]
 	float b_damping;	// [N-mm/(deg/sec)]
 
+	// Initial conditions 
 	static float x_1 = 0;
 	static float x_2 = 0;
 	static float z = WALL_POSITION;	// [deg]
@@ -109,10 +114,10 @@ float virtualSpringMassDamper(float angle, float velocity)
 	float x_1_next = x_1 + TIMESTEP * x_2;
 	float x_2_next = x_2 + ((-k_spring * TIMESTEP)/j_inertia)*x_1 + ((k_spring * TIMESTEP)/j_inertia)*z;
 
-	float torque_on_puck = -1 * (k_spring * angle + b_damping * velocity); 
+	float torque_on_puck = k_spring*(angle) + b_damping*(velocity); 
 
-	x_1 = x_1_next;
-	x_2 = x_2_next;
+	x_2 = (angle - x_1)/TIMESTEP;
+	x_1 = angle;
 
 	return torque_on_puck;
 }
