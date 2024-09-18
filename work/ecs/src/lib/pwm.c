@@ -55,7 +55,7 @@ void initPWM(int submodule, int channel, int frequency, float dutyCycle)
 {
   uint16_t cmax;
 
-  cmax = 1/frequency * PWM_CLOCK_FREQ - 1;
+  cmax = PWM_CLOCK_FREQ/frequency - 1;
   
   /* 45.4.3.9 - Feature Mode Selection (MODE) */
   FTM_MODULE[submodule]->MODE |= FTM_MODE_WPDIS(0b1);  /* Write protect to registers disabled (default) */
