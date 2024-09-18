@@ -1,0 +1,3 @@
+ main_Y.Output = ((((uint32_T)main_U.Input[1] << 8) + main_U.Input[0]) +
+                   ((uint32_T)main_U.Input[2] << 16)) + ((uint32_T)main_U.Input
+    [3] << 24);
