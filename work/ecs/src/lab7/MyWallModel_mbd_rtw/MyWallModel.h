@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'MyWallModel'.
  *
- * Model version                   : 1.16
+ * Model version                   : 1.27
  * Simulink Coder version          : 9.3 (R2020a) 18-Nov-2019
  * MBDT for S32K1xx Series Version : 4.1.0 (R2017b-R2019a) 22-Jul-2019
- * C/C++ source code generated on  : Thu Sep 19 10:28:53 2024
+ * C/C++ source code generated on  : Thu Sep 19 11:17:30 2024
  *
  * Target selection: mbd_s32k.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -97,8 +97,8 @@ extern RT_MODEL_MyWallModel_T *const MyWallModel_M;
 /*-
  * These blocks were eliminated from the model due to optimizations:
  *
+ * Block '<S6>/Scope' : Unused code path elimination
  * Block '<S5>/Data Type Conversion' : Eliminate redundant data type conversion
- * Block '<S5>/Gain' : Eliminated nontunable gain of 1
  */
 
 /*-

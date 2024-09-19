@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'MyWallModel'.
  *
- * Model version                   : 1.16
+ * Model version                   : 1.27
  * Simulink Coder version          : 9.3 (R2020a) 18-Nov-2019
  * MBDT for S32K1xx Series Version : 4.1.0 (R2017b-R2019a) 22-Jul-2019
- * C/C++ source code generated on  : Thu Sep 19 10:28:53 2024
+ * C/C++ source code generated on  : Thu Sep 19 11:17:30 2024
  *
  * Target selection: mbd_s32k.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -56,12 +56,15 @@ void MyWallModel_step(void)
 
   /* Sum: '<S5>/Add1' incorporates:
    *  DataTypeConversion: '<S5>/Data Type Conversion1'
+   *  DataTypeConversion: '<S5>/Data Type Conversion2'
+   *  Gain: '<S5>/Gain'
    *  Sum: '<S5>/Add'
    *  UnitDelay: '<S5>/Unit Delay'
    *  UnitDelay: '<S5>/Unit Delay1'
    */
-  MyWallModel_DW.UnitDelay1_DSTATE += (real_T)(int16_T)((uint32_T)
-    MyWallModel_B.Quadrature_Decoder_o1 + MyWallModel_DW.UnitDelay_DSTATE);
+  MyWallModel_DW.UnitDelay1_DSTATE += (real32_T)(int16_T)
+    (MyWallModel_B.Quadrature_Decoder_o1 - MyWallModel_DW.UnitDelay_DSTATE) *
+    0.09F;
 
   /* Chart: '<S3>/Chart' incorporates:
    *  Constant: '<S3>/Constant1'
@@ -78,19 +81,19 @@ void MyWallModel_step(void)
 
   switch (MyWallModel_DW.is_c1_MyWallModel) {
    case MyWallModel_IN_Inside_wall:
-    if ((real32_T)MyWallModel_DW.UnitDelay1_DSTATE <= 0.0F) {
+    if ((real32_T)MyWallModel_DW.UnitDelay1_DSTATE - 10.0F <= 0.0F) {
       MyWallModel_DW.is_c1_MyWallModel = MyWallModel_IN_Outside_wall;
       MyWallModel_B.torque = 0.0F;
     } else {
-      MyWallModel_B.torque = (0.0F - (real32_T)MyWallModel_DW.UnitDelay1_DSTATE)
+      MyWallModel_B.torque = (10.0F - (real32_T)MyWallModel_DW.UnitDelay1_DSTATE)
         * 500.0F;
     }
     break;
 
    case MyWallModel_IN_Outside_wall:
-    if ((real32_T)MyWallModel_DW.UnitDelay1_DSTATE > 0.0F) {
+    if ((real32_T)MyWallModel_DW.UnitDelay1_DSTATE - 10.0F > 0.0F) {
       MyWallModel_DW.is_c1_MyWallModel = MyWallModel_IN_Inside_wall;
-      MyWallModel_B.torque = (0.0F - (real32_T)MyWallModel_DW.UnitDelay1_DSTATE)
+      MyWallModel_B.torque = (10.0F - (real32_T)MyWallModel_DW.UnitDelay1_DSTATE)
         * 500.0F;
     }
     break;
@@ -139,15 +142,17 @@ void MyWallModel_step(void)
 
   /* End of Outputs for S-Function (fcncallgen): '<S1>/Function-Call Generator' */
 
-  /* S-Function (ftm_s32k_pwm_config): '<S2>/FTM_PWM_Config' */
+  /* S-Function (ftm_s32k_pwm_config): '<S2>/FTM_PWM_Config' incorporates:
+   *  Constant: '<S2>/Constant'
+   */
   {
-    uint16_t dutyA = FTM_MAX_DUTY_CYCLE * MyWallModel_B.FTM_PWM_Config_c;
+    uint16_t dutyA = FTM_MAX_DUTY_CYCLE * 0.5F;
     FTM_DRV_UpdatePwmChannel(FTM_PWM3, 0U, FTM_PWM_UPDATE_IN_DUTY_CYCLE, dutyA,
       0, true);
   }
 
   /* Simulation Outputs */
-  MyWallModel_B.FTM_PWM_Config = (float) MyWallModel_B.FTM_PWM_Config_c;
+  MyWallModel_B.FTM_PWM_Config = (float) 0.5F;
 
   /* Update absolute time for base rate */
   /* The "clockTick0" counts the number of times the code of this task has
@@ -161,7 +166,9 @@ void MyWallModel_step(void)
 /* Model initialize function */
 void MyWallModel_initialize(void)
 {
-  /* Start for S-Function (ftm_s32k_pwm_config): '<S2>/FTM_PWM_Config' */
+  /* Start for S-Function (ftm_s32k_pwm_config): '<S2>/FTM_PWM_Config' incorporates:
+   *  Constant: '<S2>/Constant'
+   */
 
   /* Enable clock for PORTB */
   PCC_SetClockMode (PCC, PCC_PORTB_CLOCK, true);
