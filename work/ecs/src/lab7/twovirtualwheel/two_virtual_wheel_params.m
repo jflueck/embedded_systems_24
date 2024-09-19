@@ -20,8 +20,11 @@ b1 =T1*k1;   % value of damping that cancels the destabilizing effects of forwar
 
 % set parameters so that slow subsystem has frequency 10 Hz
 k2 = .5*15;           % spring constant in N-mm/degree
+k2 = 3.75;
 Jw2 = .5*.015/4;      % rotational inertia in N-mm/(degree/sec^2)
- 
+Jw2 = 0.0721;
+% Jw2 = Jw2*76.9;
+
 T2 = 1/500;  % sample time for second (fast) system in seconds
 b2 =T2*k2;   % value of damping that cancels the destabilizing effects of forward euler 
  
