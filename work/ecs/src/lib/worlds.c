@@ -25,7 +25,7 @@
 float virtualWall(float angle)
 {
 	if (angle <= 0.0) {
-		float k_spring = 10000;	// [N-mm/deg]
+		float k_spring = 25;	// [N-mm/deg]
 		return (-k_spring * angle);
 	}
 
