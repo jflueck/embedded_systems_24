@@ -26,9 +26,9 @@
 #include "LPIT.h"
 
 /* define VWALLA, VWALLB, or VCHAIN depending on lab section */
-#define VWALLB
+#define VCHAIN
 
-#ifdef VWALLA
+#ifdef VCHAIN
 void virt_wall_A(void);
 #endif
 
@@ -36,7 +36,7 @@ void virt_wall_A(void);
 void virt_wall_B(void);
 #endif
 
-#ifdef VWALLA
+#ifdef VCHAIN
 void virt_chain();
 #endif
 
@@ -44,13 +44,13 @@ void virt_chain();
 //*************************************************************************************
 // EDIT STATION IDS
 #define STATIONBASEID 30; /* ID of your lab station */
-#define VWPARTNERID   50;/* ID of your partner's lab station for the virtual wall */
+#define VWPARTNERID   200;/* ID of your partner's lab station for the virtual wall */
 #define CHAIN_A_ID    40; /* ID of the station to your "left" */
 #define CHAIN_B_ID    20; /* ID of the station to your "right" */
 //*************************************************************************************
 
 const uint16_t vwA_tx_ID = 0 + STATIONBASEID;
-const uint16_t vwA_rx_ID = 1 + VWPARTNERID;
+const uint16_t vwA_rx_ID = 3 + VWPARTNERID;
 const uint16_t vwB_tx_ID = 1 + STATIONBASEID;
 const uint16_t vwB_rx_ID = 0 + VWPARTNERID;
 
@@ -131,8 +131,8 @@ void rx_ISR(void){
         /* 3. Check if read is successful and message has the right length */
         /* Copy position and velocity to global variables */
         if (rxinfo.length == sizeof(posA) + sizeof(velA)) {
-        	volatile_memcpy(&posA, rxinfo.data[0], sizeof(posA));
-        	volatile_memcpy(&velA, rxinfo.data[4], sizeof(velA));
+        	memcpy(&posA, rxinfo.data, sizeof(posA));
+        	memcpy(&velA, rxinfo.data+4, sizeof(velA));
         }
     }
 
@@ -149,11 +149,10 @@ void rx_ISR(void){
         /* 3. Check if read is successful and message has the right length */
         /* Copy position and velocity to global variables */
         if (rxinfo.length == sizeof(posB) + sizeof(velB)) {
-        	volatile_memcpy(&posB, rxinfo.data[0], sizeof(posB));
-        	volatile_memcpy(&velB, rxinfo.data[4], sizeof(velB));
+        	memcpy(&posB, rxinfo.data, sizeof(posB));
+        	memcpy(&velB, rxinfo.data+4, sizeof(velB));
         }
     }
-    virt_chain();
     #endif
 }
 
@@ -272,7 +271,7 @@ void virt_chain()
 
   /* 2. Calculate wheel velocity (deg/s) */
   velocity = (curr_angle - prev_angle) * vc_f;
-
+  prev_angle = curr_angle;
   /* 3. Calculate & apply torque  */
   outputTorque(k*(posA+posB-2*curr_angle) + b*(velA+velB-2*velocity));
 
@@ -282,8 +281,9 @@ void virt_chain()
   txinfo.buff_num = chain_tx_buff_num;
   txinfo.id = chain_tx_ID;
   txinfo.length = sizeof(velocity) + sizeof(curr_angle);
-  memcpy(txinfo.data[0], &curr_angle, sizeof(curr_angle));
-  memcpy(txinfo.data[4], &velocity, sizeof(velocity));
+
+  memcpy(txinfo.data, &curr_angle, sizeof(curr_angle));
+  memcpy(txinfo.data+4, &velocity, sizeof(velocity));
 
   ret = can_txmsg(&txinfo);
   ASSERT_ECS(ret == 0);
@@ -298,8 +298,8 @@ void virt_chain()
 
 int main()
 {
-	initECS();
-	float angle = 0.0f;
+ 	initECS(); float angle = 0.0f;
+
 	int ret;
 
 	/* Processor initialization */
@@ -315,6 +315,7 @@ int main()
 
 	/* Configure FlexCan module */
 	initFlexcan();
+  enableLPIT();
 
 	/* Set the CAN receive ISR */
 	can_set_rxisr(&rx_ISR);
@@ -328,8 +329,8 @@ int main()
 	#endif
 
 	#ifdef VCHAIN
-	can_rxbuff_init(chainB_rx_buff_num, chainB_rx_ID, 1);
 	can_rxbuff_init(chainA_rx_buff_num, chainA_rx_ID, 1);
+	can_rxbuff_init(chainB_rx_buff_num, chainB_rx_ID, 1);
 	#endif
 
 	/* Initialize the shared global variables */
@@ -340,7 +341,7 @@ int main()
 	velB = 0 ;		/* chain velocity B (FLOAT32, N-mm) */
 
 	#ifdef VWALLA
-	  enableLPIT();
+	 // enableLPIT();
 		initLPIT(CAN_TX_ISR_CHANNEL, 250, &virt_wall_A, 0xB);
 	#endif
 
@@ -349,7 +350,6 @@ int main()
 	#endif
 
 	#ifdef VCHAIN
-    enableLPIT();
 		initLPIT(CAN_TX_ISR_CHANNEL, 250, &virt_chain, 0xB);
 	#endif
 	ENABLE_INTERRUPTS();
