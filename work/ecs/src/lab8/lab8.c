@@ -43,10 +43,10 @@ void virt_chain();
 
 //*************************************************************************************
 // EDIT STATION IDS
-#define STATIONBASEID  /* ID of your lab station */
+#define STATIONBASEID 30 /* ID of your lab station */
 #define VWPARTNERID    /* ID of your partner's lab station for the virtual wall */
-#define CHAIN_A_ID     /* ID of the station to your "left" */
-#define CHAIN_B_ID     /* ID of the station to your "right" */
+#define CHAIN_A_ID    40 /* ID of the station to your "left" */
+#define CHAIN_B_ID    20 /* ID of the station to your "right" */
 //*************************************************************************************
 
 const uint16_t vwA_tx_ID = 0 + STATIONBASEID;
@@ -92,7 +92,8 @@ void rx_ISR(void){
         /* Read the CAN message and copy torque to global variable */
         /* is the read successful and is the message the right length? */
         //Copy over the data from the CAN buffer to rxinfo
-        vw_torque = rxinfo.data[0] + (rxinfo.data[1] << 8) + (rxinfo.data[2] << 16) + (rxinfo.data[3] << 24);
+        volatile_memcpy(txinfo.data, &vw_torque, sizeof(vw_torque));
+    	virt_wall_A();
     }
 	#endif
 
@@ -101,7 +102,7 @@ void rx_ISR(void){
     /* First check to see if there is a new message in the buffer */
     if ( can_get_buff_flag(vwB_rx_buffnum) == 1 ) {
         /* Let virt_wall_B() handle this */
-    /* fill in */
+    	virt_wall_B();
     }
 	#endif
 
@@ -117,27 +118,38 @@ void rx_ISR(void){
 
     if( can_get_buff_flag(chainA_rx_buff_num) == 1 ){
         /* 1. Set the number of CAN buffer with message */
-       /* fill in */
+        rxinfo.buff_num = chainA_rx_buffnum;
        
         /* 2. Receive CAN message */
-        /* fill in */
+        ret = can_rxmsg(&rxinfo);
+        ASSERT_EECS(ret == 0);
         
         /* 3. Check if read is successful and message has the right length */
         /* Copy position and velocity to global variables */
-        /* fill in */
+        if (rxinfo.length == sizeof(posA) + sizeof(velA)) {
+        	volatile_memcpy(&posA, rxinfo.data[0], sizeof(posA));
+        	volatile_memcpy(&velA, rxinfo.data[4], sizeof(velA));
+        }
     }
 
     /* Message for: Virtual Chain (from B) */
     /* First check to see if there is a new message in the buffer */
     if( can_get_buff_flag(chainB_rx_buff_num) == 1 ){
         /* 1. Set the number of CAN buffer with message */
-        /* fill in */
+        rxinfo.buff_num = chainB_rx_buffnum;
+
         /* 2. Receive CAN message */
-        /* fill in */
+        ret = can_rxmsg(&rxinfo);
+        ASSERT_EECS(ret == 0);
+
         /* 3. Check if read is successful and message has the right length */
-        /* Copy position and velocity to global variablse */
-        /* fill in */
+        /* Copy position and velocity to global variables */
+        if (rxinfo.length == sizeof(posB) + sizeof(velB)) {
+        	volatile_memcpy(&posB, rxinfo.data[0], sizeof(posB));
+        	volatile_memcpy(&velB, rxinfo.data[4], sizeof(velB));
+        }
     }
+    virt_chain();
     #endif
 }
 
@@ -159,19 +171,22 @@ void virt_wall_A() {
 	int ret;
 
     /* 1. Apply the current torque value (last received) */
-    txinfo.data[0] = (uint8_t) vw_torque;
-    txinfo.data[1] = (uint8_t) (vw_torque >> 8);
-    txinfo.data[2] = (uint8_t) (vw_torque >> 16);
-    txinfo.data[3] = (uint8_t) (vw_torque >> 24);
+	outputTorque(vw_torque);
 
     /* 2. Read the wheel position */
-    /* fill in */
+    curr_angle = updateAngle();
 
     /* 3. Transmit the wheel position in a CAN message */
-    can_txmsg(&txinfo);
+    txinfo.buff_num = vwA_tx_buffnum;
+    txinfo.id = vwA_tx_ID;
+    txinfo.length = sizeof(curr_angle);
+    memcpy(txinfo.data, &curr_angle, sizeof(curr_angle));
+
+	ret = can_txmsg(&txinfo);
+    ASSERT_EECS(ret == 0);
 
     /* clear interrupt flag for TX channel */
-    /* fill in */
+    clearFlagLPIT(CAN_TX_ISR_CHANNEL);
 }
 #endif
 
@@ -197,15 +212,27 @@ void virt_wall_A() {
 
     /* 1. Read the CAN message */
     /**** is the read successful and is the message the right length? ***/
-    /* fill in */;
-    curr_angle = rxinfo.data[0] + (rxinfo.data[1] << 8) + (rxinfo.data[2] << 16) + (rxinfo.data[3] << 24);
+    rxinfo.buff_num = vwB_rx_buffnum;
+    ret = can_rxmsg(&rxinfo);
+    ASSERT_EECS(ret == 0);
+    if (rxinfo.length == sizeof(curr_angle)) {
+    	memcpy(&curr_angle, rxinfo.data, sizeof(curr_angle));
+    }
 
     /* 2. Calculate the torque */
-    float k_spring = 25.0; // N-mm/deg
-    torque = -k_spring * curr_angle;
+    torque = virtualWall();
 
     /* 3. Transmit the torque back */
-    can_txmsg(&txinfo);
+    txinfo.buff_num = vwB_tx_buffnum;
+	txinfo.id = vwB_tx_ID;
+	txinfo.length = sizeof(torque);
+	memcpy(txinfo.data, &torque, sizeof(torque));
+
+    ret = can_txmsg(&txinfo);
+    ASSERT_EECS(ret == 0);
+
+    /* clear interrupt flag for TX channel */
+    clearFlagLPIT(CAN_TX_ISR_CHANNEL);
 }
 #endif
 
@@ -240,20 +267,29 @@ void virt_chain()
 
 
     /* 1. Read wheel angle (deg) */
-    /* fill in */
+	curr_angle = updateAngle();
 
     /* 2. Calculate wheel velocity (deg/s) */
     velocity = (curr_angle - prev_angle) * vc_f;
 
     /* 3. Calculate & apply torque  */
-    /* fill in */
+    outputTorque(k*(posA+posB-2*curr_angle) + b*(velA+velB-2*velocity));
 
     /* 4. Transmit your wheel position and velocity */
     /**** 8-bytes (first 4 for position and second 4 for velocity) ****/
-    /* fill in */;
+    /* 3. Transmit the wheel position in a CAN message */
+    txinfo.buff_num = chain_tx_buffnum;
+    txinfo.id = chain_tx_ID;
+    txinfo.length = sizeof(velocity) + sizeof(curr_angle);
+    memcpy(txinfo.data[0], &curr_angle, sizeof(curr_angle));
+    memcpy(txinfo.data[4], &velocity, sizeof(velocity));
 
-    // clear interrupt flag for TX channel
-     /* fill in */
+	ret = can_txmsg(&txinfo);
+    ASSERT_EECS(ret == 0);
+
+    /* clear interrupt flag for TX channel */
+    clearFlagLPIT(CAN_TX_ISR_CHANNEL);
+
 	return;
 }
 #endif
@@ -277,23 +313,21 @@ int main()
 	initPWM(FILTER_SUBMODULE,FILTER_CHANNEL,FILTER_FREQUENCY, 0.50f);
 
 	/* Configure FlexCan module */
-    CAN0_BASE->MDIS = 0x0; // Enable the module
-    CAN0_BASE->MAXMB = 0xF; // Set the number of message buffers
-    CAN0_BASE->CTRL1 = 0x0; // Set the clock source to 8 MHz
+	initFlexcan();
 
 	/* Set the CAN receive ISR */
-	    /* fill in */
+	can_set_rxisr(&rx_ISR);
 
 	#ifdef VWALLA
-        /* fill in */
+	can_rxbuff_init(vwA_rx_buffnum, vwA_rx_ID, 1);
 	#endif
 
 	#ifdef VWALLB
-        /* fill in */
+	can_rxbuff_init(vwB_rx_buffnum, vwB_rx_ID, 1);
 	#endif
 
 	#ifdef VCHAIN
-	    /* fill in */
+	can_rxbuff_init(chain_rx_buffnum, chain_rx_ID, 1);
 	#endif
 
 	/* Initialize the shared global variables */
@@ -304,7 +338,7 @@ int main()
 	velB = 0 ;		/* chain velocity B (FLOAT32, N-mm) */
 
 	#ifdef VWALLA
-		initLPIT(CAN_TX_ISR_CHANNEL, /* fill in *//*Hz*/, &virt_wall_A, 0xB);
+		initLPIT(CAN_TX_ISR_CHANNEL, 250, &virt_wall_A, 0xB);
 	#endif
 
 	#ifdef VWALLB
@@ -312,7 +346,7 @@ int main()
 	#endif
 
 	#ifdef VCHAIN
-		initLPIT(CAN_TX_ISR_CHANNEL, /* fill in *//*Hz*/, &virt_chain, 0xB);
+		initLPIT(CAN_TX_ISR_CHANNEL, 250, &virt_chain, 0xB);
 	#endif
 	ENABLE_INTERRUPTS()
 
