@@ -23,10 +23,12 @@ function RTW_rtwnameSIDMap() {
 	this.sidHashMap["MyWallModel:13"] = {rtwname: "<S1>/MBD_S32K1xx_Config_Information"};
 	this.rtwnameHashMap["<S1>/Subsystem"] = {sid: "MyWallModel:50"};
 	this.sidHashMap["MyWallModel:50"] = {rtwname: "<S1>/Subsystem"};
+	this.rtwnameHashMap["<S1>/Subsystem1"] = {sid: "MyWallModel:67"};
+	this.sidHashMap["MyWallModel:67"] = {rtwname: "<S1>/Subsystem1"};
 	this.rtwnameHashMap["<S1>/Triggered Subsystem"] = {sid: "MyWallModel:14"};
 	this.sidHashMap["MyWallModel:14"] = {rtwname: "<S1>/Triggered Subsystem"};
-	this.rtwnameHashMap["<S2>/Input"] = {sid: "MyWallModel:60"};
-	this.sidHashMap["MyWallModel:60"] = {rtwname: "<S2>/Input"};
+	this.rtwnameHashMap["<S2>/Constant"] = {sid: "MyWallModel:62"};
+	this.sidHashMap["MyWallModel:62"] = {rtwname: "<S2>/Constant"};
 	this.rtwnameHashMap["<S2>/FTM_PWM_Config"] = {sid: "MyWallModel:53"};
 	this.sidHashMap["MyWallModel:53"] = {rtwname: "<S2>/FTM_PWM_Config"};
 	this.rtwnameHashMap["<S2>/Terminator"] = {sid: "MyWallModel:61"};
@@ -43,8 +45,6 @@ function RTW_rtwnameSIDMap() {
 	this.sidHashMap["MyWallModel:27"] = {rtwname: "<S3>/Subsystem"};
 	this.rtwnameHashMap["<S3>/Subsystem1"] = {sid: "MyWallModel:41"};
 	this.sidHashMap["MyWallModel:41"] = {rtwname: "<S3>/Subsystem1"};
-	this.rtwnameHashMap["<S3>/Output"] = {sid: "MyWallModel:59"};
-	this.sidHashMap["MyWallModel:59"] = {rtwname: "<S3>/Output"};
 	this.rtwnameHashMap["<S4>:3"] = {sid: "MyWallModel:19:3"};
 	this.sidHashMap["MyWallModel:19:3"] = {rtwname: "<S4>:3"};
 	this.rtwnameHashMap["<S4>:5"] = {sid: "MyWallModel:19:5"};
@@ -97,8 +97,10 @@ function RTW_rtwnameSIDMap() {
 	this.sidHashMap["MyWallModel:44"] = {rtwname: "<S6>/Gain"};
 	this.rtwnameHashMap["<S6>/Saturation"] = {sid: "MyWallModel:48"};
 	this.sidHashMap["MyWallModel:48"] = {rtwname: "<S6>/Saturation"};
-	this.rtwnameHashMap["<S6>/Output"] = {sid: "MyWallModel:58"};
-	this.sidHashMap["MyWallModel:58"] = {rtwname: "<S6>/Output"};
+	this.rtwnameHashMap["<S6>/Scope"] = {sid: "MyWallModel:65"};
+	this.sidHashMap["MyWallModel:65"] = {rtwname: "<S6>/Scope"};
+	this.rtwnameHashMap["<S6>/Terminator"] = {sid: "MyWallModel:63"};
+	this.sidHashMap["MyWallModel:63"] = {rtwname: "<S6>/Terminator"};
 	this.getSID = function(rtwname) { return this.rtwnameHashMap[rtwname];}
 	this.getRtwname = function(sid) { return this.sidHashMap[sid];}
 }
