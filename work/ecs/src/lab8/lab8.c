@@ -92,8 +92,7 @@ void rx_ISR(void){
         /* Read the CAN message and copy torque to global variable */
         /* is the read successful and is the message the right length? */
         //Copy over the data from the CAN buffer to rxinfo
-        /* fill in */
-        static 
+        vw_torque = rxinfo.data[0] + (rxinfo.data[1] << 8) + (rxinfo.data[2] << 16) + (rxinfo.data[3] << 24);
     }
 	#endif
 
@@ -160,13 +159,16 @@ void virt_wall_A() {
 	int ret;
 
     /* 1. Apply the current torque value (last received) */
-    /* fill in */
+    txinfo.data[0] = (uint8_t) vw_torque;
+    txinfo.data[1] = (uint8_t) (vw_torque >> 8);
+    txinfo.data[2] = (uint8_t) (vw_torque >> 16);
+    txinfo.data[3] = (uint8_t) (vw_torque >> 24);
 
     /* 2. Read the wheel position */
     /* fill in */
 
     /* 3. Transmit the wheel position in a CAN message */
-    /* fill in */
+    can_txmsg(&txinfo);
 
     /* clear interrupt flag for TX channel */
     /* fill in */
@@ -196,12 +198,14 @@ void virt_wall_A() {
     /* 1. Read the CAN message */
     /**** is the read successful and is the message the right length? ***/
     /* fill in */;
+    curr_angle = rxinfo.data[0] + (rxinfo.data[1] << 8) + (rxinfo.data[2] << 16) + (rxinfo.data[3] << 24);
 
     /* 2. Calculate the torque */
-    /* fill in */
+    float k_spring = 25.0; // N-mm/deg
+    torque = -k_spring * curr_angle;
 
     /* 3. Transmit the torque back */
-    /* fill in */
+    can_txmsg(&txinfo);
 }
 #endif
 
@@ -239,7 +243,7 @@ void virt_chain()
     /* fill in */
 
     /* 2. Calculate wheel velocity (deg/s) */
-    /* fill in */
+    velocity = (curr_angle - prev_angle) * vc_f;
 
     /* 3. Calculate & apply torque  */
     /* fill in */
